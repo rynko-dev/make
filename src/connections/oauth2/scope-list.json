@@ -1,32 +1,26 @@
-[
-  {
-    "value": "documents:generate",
+{
+  "documents:generate": {
     "label": "Generate Documents",
     "help": "Permission to generate PDF and Excel documents"
   },
-  {
-    "value": "documents:read",
+  "documents:read": {
     "label": "Read Documents",
     "help": "Permission to view document job status and download documents"
   },
-  {
-    "value": "templates:read",
+  "templates:read": {
     "label": "Read Templates",
     "help": "Permission to list and view template details"
   },
-  {
-    "value": "webhooks:read",
+  "webhooks:read": {
     "label": "Read Webhooks",
     "help": "Permission to list webhook subscriptions"
   },
-  {
-    "value": "webhooks:write",
+  "webhooks:write": {
     "label": "Manage Webhooks",
     "help": "Permission to create and delete webhook subscriptions"
   },
-  {
-    "value": "profile:read",
+  "profile:read": {
     "label": "Read Profile",
     "help": "Permission to read user profile information"
   }
-]
+}
