@@ -168,7 +168,7 @@ The Base contains settings shared across all modules in your app.
 
 ### Step 2: Enter Base Configuration
 
-Copy and paste the contents of `base.json`:
+Copy and paste the contents of [`base.json`](./base.json):
 
 ```json
 {
@@ -218,7 +218,7 @@ Connections handle authentication between Make.com and Renderbase. The Make.com 
 
 ### Step 2: Configure Communication Tab
 
-Click the **Communication** tab and paste the contents of `src/connections/oauth2/communication.json`:
+Click the **Communication** tab and paste the contents of [`src/connections/oauth2/communication.json`](./src/connections/oauth2/communication.json):
 
 ```json
 {
@@ -310,7 +310,7 @@ Enter the actual Client ID and Client Secret you obtained from Renderbase in the
 
 ### Step 4: Configure Scope Tab
 
-Click the **Scope** tab and paste the contents of `src/connections/oauth2/scope.json`:
+Click the **Scope** tab and paste the contents of [`src/connections/oauth2/scope.json`](./src/connections/oauth2/scope.json):
 
 ```json
 [
@@ -325,7 +325,7 @@ Click the **Scope** tab and paste the contents of `src/connections/oauth2/scope.
 
 ### Step 5: Configure Scope List Tab (Optional)
 
-Click the **Scope List** tab and paste the contents of `src/connections/oauth2/scope-list.json` to provide descriptions for each scope.
+Click the **Scope List** tab and paste the contents of [`src/connections/oauth2/scope-list.json`](./src/connections/oauth2/scope-list.json) to provide descriptions for each scope.
 
 ### Step 6: Save Connection
 
@@ -349,7 +349,7 @@ Modules are the building blocks users add to their scenarios. Each module has **
 
 **Configure each tab:**
 
-**Communication Tab** - paste `src/modules/generate-pdf/communication.json`:
+**Communication Tab** - paste [`src/modules/generate-pdf/communication.json`](./src/modules/generate-pdf/communication.json):
 ```json
 {
   "url": "/documents/generate",
@@ -371,26 +371,26 @@ Modules are the building blocks users add to their scenarios. Each module has **
 }
 ```
 
-**Mappable Parameters Tab** - paste `src/modules/generate-pdf/parameters.json`
+**Mappable Parameters Tab** - paste [`src/modules/generate-pdf/parameters.json`](./src/modules/generate-pdf/parameters.json)
 
-**Interface Tab** - paste `src/modules/generate-pdf/interface.json`
+**Interface Tab** - paste [`src/modules/generate-pdf/interface.json`](./src/modules/generate-pdf/interface.json)
 
-**Samples Tab** - paste `src/modules/generate-pdf/samples.json`
+**Samples Tab** - paste [`src/modules/generate-pdf/samples.json`](./src/modules/generate-pdf/samples.json)
 
-**Scope Tab** - paste `src/modules/generate-pdf/scope.json`
+**Scope Tab** - paste [`src/modules/generate-pdf/scope.json`](./src/modules/generate-pdf/scope.json)
 
 Click **Save**.
 
 ### Action Module: Generate Excel
 
-Repeat the same process using files from `src/modules/generate-excel/`:
+Repeat the same process using files from [`src/modules/generate-excel/`](./src/modules/generate-excel/):
 - **Name**: `generateExcel`
 - **Label**: `Generate Excel`
 - **Description**: `Generate an Excel spreadsheet from a template`
 
 ### Action Module: Generate Batch
 
-Repeat using files from `src/modules/generate-batch/`:
+Repeat using files from [`src/modules/generate-batch/`](./src/modules/generate-batch/):
 - **Name**: `generateBatch`
 - **Label**: `Generate Batch Documents`
 - **Description**: `Generate multiple documents from a single template`
@@ -401,7 +401,7 @@ Repeat using files from `src/modules/generate-batch/`:
 2. Select type: **Search** (or Action if retrieving single item)
 3. Set **Name** to `getDocument`
 4. Set **Label** to `Get Document`
-5. Configure tabs using files from `src/modules/get-document/`
+5. Configure tabs using files from [`src/modules/get-document/`](./src/modules/get-document/)
 
 ### Instant Trigger: Watch Document Completed
 
@@ -414,27 +414,27 @@ Repeat using files from `src/modules/generate-batch/`:
 
 **Configure each tab:**
 
-**Static Parameters Tab** - paste `src/modules/watch-document-completed/static.json`:
+**Static Parameters Tab** - paste [`src/modules/watch-document-completed/static.json`](./src/modules/watch-document-completed/static.json):
 ```json
 {
   "events": ["document.completed"]
 }
 ```
 
-**Interface Tab** - paste `src/modules/watch-document-completed/interface.json`
+**Interface Tab** - paste [`src/modules/watch-document-completed/interface.json`](./src/modules/watch-document-completed/interface.json)
 
-**Samples Tab** - paste `src/modules/watch-document-completed/samples.json`
+**Samples Tab** - paste [`src/modules/watch-document-completed/samples.json`](./src/modules/watch-document-completed/samples.json)
 
 ### Instant Trigger: Watch Document Failed
 
-Repeat using files from `src/modules/watch-document-failed/`:
+Repeat using files from [`src/modules/watch-document-failed/`](./src/modules/watch-document-failed/):
 - **Name**: `watchDocumentFailed`
 - **Label**: `Watch Document Failed`
 - **Static events**: `["document.failed"]`
 
 ### Instant Trigger: Watch Batch Completed
 
-Repeat using files from `src/modules/watch-batch-completed/`:
+Repeat using files from [`src/modules/watch-batch-completed/`](./src/modules/watch-batch-completed/):
 - **Name**: `watchBatchCompleted`
 - **Label**: `Watch Batch Completed`
 - **Static events**: `["batch.completed"]`
@@ -453,7 +453,7 @@ RPCs provide dynamic data for module dropdowns, like template lists.
 4. Set **Label** to `List Templates`
 5. Select **Connection**: `oauth2`
 
-**Communication Tab** - paste `src/rpcs/list-templates/communication.json`:
+**Communication Tab** - paste [`src/rpcs/list-templates/communication.json`](./src/rpcs/list-templates/communication.json):
 ```json
 {
   "url": "/templates",
@@ -477,13 +477,13 @@ RPCs provide dynamic data for module dropdowns, like template lists.
 
 ### RPC: List PDF Templates
 
-Repeat using `src/rpcs/list-pdf-templates/communication.json`:
+Repeat using [`src/rpcs/list-pdf-templates/communication.json`](./src/rpcs/list-pdf-templates/communication.json):
 - **Name**: `listPdfTemplates`
 - Adds `"format": "pdf"` to query string
 
 ### RPC: List Excel Templates
 
-Repeat using `src/rpcs/list-excel-templates/communication.json`:
+Repeat using [`src/rpcs/list-excel-templates/communication.json`](./src/rpcs/list-excel-templates/communication.json):
 - **Name**: `listExcelTemplates`
 - Adds `"format": "excel"` to query string
 
@@ -504,7 +504,7 @@ Webhooks enable instant triggers to receive real-time events.
 
 **Configure each tab:**
 
-**Attach Tab** - paste `src/webhooks/document-events/attach.json`:
+**Attach Tab** - paste [`src/webhooks/document-events/attach.json`](./src/webhooks/document-events/attach.json):
 ```json
 {
   "url": "/webhook-subscriptions",
@@ -526,11 +526,11 @@ Webhooks enable instant triggers to receive real-time events.
 }
 ```
 
-**Detach Tab** - paste `src/webhooks/document-events/detach.json`
+**Detach Tab** - paste [`src/webhooks/document-events/detach.json`](./src/webhooks/document-events/detach.json)
 
-**Parameters Tab** - paste `src/webhooks/document-events/parameters.json`
+**Parameters Tab** - paste [`src/webhooks/document-events/parameters.json`](./src/webhooks/document-events/parameters.json)
 
-**Verify Tab** (optional) - paste `src/webhooks/document-events/verify.json`
+**Verify Tab** (optional) - paste [`src/webhooks/document-events/verify.json`](./src/webhooks/document-events/verify.json)
 
 ---
 
