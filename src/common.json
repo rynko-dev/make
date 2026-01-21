@@ -1,0 +1,26 @@
+{
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json",
+    "User-Agent": "Renderbase-Make/1.0"
+  },
+  "response": {
+    "valid": "{{if(body.success, true, false)}}",
+    "error": {
+      "message": "{{body.message}}",
+      "type": "{{body.error}}"
+    }
+  },
+  "pagination": {
+    "mergeWithParent": true,
+    "url": "{{base.baseUrl}}{{parameters.endpoint}}",
+    "qs": {
+      "page": "{{parameters.page}}",
+      "limit": "{{parameters.limit}}"
+    },
+    "response": {
+      "limit": "{{body.meta.limit}}",
+      "output": "{{body.data}}"
+    }
+  }
+}

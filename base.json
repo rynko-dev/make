@@ -1,0 +1,18 @@
+{
+  "baseUrl": "https://api.renderbase.dev/api/v1",
+  "authorizationUrl": "https://app.renderbase.dev/oauth/authorize",
+  "tokenUrl": "https://api.renderbase.dev/api/oauth/token",
+  "headers": {
+    "Content-Type": "application/json",
+    "User-Agent": "Renderbase-Make/1.0"
+  },
+  "log": {
+    "sanitize": ["authorization", "access_token", "refresh_token"]
+  },
+  "response": {
+    "error": {
+      "message": "{{body.message}}",
+      "type": "{{body.error}}"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "documentEvents",
+  "label": "Document Events",
+  "type": "web",
+  "connection": "oauth2",
+  "attach": {
+    "url": "{{base.baseUrl}}/webhook-subscriptions",
+    "method": "POST",
+    "headers": "{{common.headers}}",
+    "body": {
+      "url": "{{webhook.url}}",
+      "events": "{{parameters.events}}",
+      "name": "Make.com - {{parameters.events}}"
+    },
+    "response": {
+      "data": {
+        "webhookId": "{{body.data.id}}"
+      }
+    }
+  },
+  "detach": {
+    "url": "{{base.baseUrl}}/webhook-subscriptions/{{webhook.webhookId}}",
+    "method": "DELETE",
+    "headers": "{{common.headers}}"
+  },
+  "verify": {
+    "condition": "{{if(body.challenge, true, false)}}",
+    "respond": {
+      "status": 200,
+      "body": {
+        "challenge": "{{body.challenge}}"
+      }
+    }
+  },
+  "parameters": [
+    {
+      "name": "events",
+      "label": "Event Types",
+      "type": "select",
+      "required": true,
+      "multiple": true,
+      "options": [
+        { "label": "Document Completed", "value": "document.completed" },
+        { "label": "Document Failed", "value": "document.failed" },
+        { "label": "Batch Completed", "value": "batch.completed" }
+      ]
+    }
+  ]
+}

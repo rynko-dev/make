@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "name": "triggers",
+      "label": "Triggers",
+      "modules": [
+        "watchDocumentCompleted",
+        "watchDocumentFailed",
+        "watchBatchCompleted"
+      ]
+    },
+    {
+      "name": "documents",
+      "label": "Documents",
+      "modules": [
+        "generateDocument",
+        "generatePdf",
+        "generateExcel",
+        "generateBatch",
+        "getDocument"
+      ]
+    }
+  ]
+}

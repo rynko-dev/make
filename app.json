@@ -1,0 +1,19 @@
+{
+  "name": "renderbase",
+  "label": "Renderbase",
+  "description": "Generate PDF and Excel documents from templates via API",
+  "version": "1.0.0",
+  "audience": "public",
+  "categories": ["documents", "productivity"],
+  "iconUrl": "https://app.renderbase.dev/logo.png",
+  "language": {
+    "default": "en"
+  },
+  "countries": ["us", "in", "gb", "de", "fr", "au", "ca"],
+  "baseUrl": "https://api.renderbase.dev",
+  "docs": "https://docs.renderbase.dev",
+  "support": {
+    "email": "support@renderbase.dev",
+    "url": "https://renderbase.dev/support"
+  }
+}
