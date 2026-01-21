@@ -38,11 +38,11 @@ The Renderbase backend must have:
 
 Before starting in Make.com, you need to create an OAuth client in Renderbase. This is a **one-time setup** that provides the credentials used by all Make.com users.
 
-#### Option 1: Via Renderbase Admin Dashboard
+#### Option 1: Via Renderbase Admin Dashboard (Recommended)
 
 1. Log in to the Renderbase Admin Dashboard at `https://admin.renderbase.dev`
-2. Navigate to **Settings** → **OAuth Clients** (or **Integrations** → **OAuth**)
-3. Click **Create New OAuth Client**
+2. Navigate to **OAuth Clients** in the sidebar (under "System" section)
+3. Click **Create OAuth Client**
 4. Fill in the details:
    - **Name**: `Make.com Integration`
    - **Redirect URIs**:
@@ -65,15 +65,15 @@ Before starting in Make.com, you need to create an OAuth client in Renderbase. T
 
 If you prefer using the API or need to automate the setup:
 
-**Step 1: Get an Admin API Token**
+**Step 1: Get a JWT Token**
 
-Log in to the Renderbase Admin Dashboard and generate an admin API token from **Settings** → **API Tokens**.
+Log in to Renderbase as a platform admin and use the JWT access token from your session. You can find this in your browser's developer tools under Application → Cookies → `access_token`.
 
 **Step 2: Create the OAuth Client**
 
 ```bash
-curl -X POST https://api.renderbase.dev/api/admin/oauth/clients \
-  -H "Authorization: Bearer YOUR_ADMIN_TOKEN" \
+curl -X POST https://api.renderbase.dev/api/oauth/clients \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Make.com Integration",
@@ -81,16 +81,14 @@ curl -X POST https://api.renderbase.dev/api/admin/oauth/clients \
       "https://www.make.com/oauth/cb/app",
       "https://www.integromat.com/oauth/cb/app"
     ],
-    "scopes": [
+    "allowedScopes": [
       "documents:generate",
       "documents:read",
       "templates:read",
       "webhooks:read",
       "webhooks:write",
       "profile:read"
-    ],
-    "grantTypes": ["authorization_code", "refresh_token"],
-    "tokenEndpointAuthMethod": "client_secret_post"
+    ]
   }'
 ```
 
