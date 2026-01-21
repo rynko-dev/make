@@ -55,8 +55,10 @@ Before starting in Make.com, you need to create an OAuth client in Renderbase. T
      - `webhooks:read`
      - `webhooks:write`
      - `profile:read`
-   - **Grant Types**: `Authorization Code`, `Refresh Token`
-5. Click **Create**
+
+   > **Note**: Grant types are automatically set to `Authorization Code` + `Refresh Token` by the backend, which is the correct configuration for Make.com.
+
+5. Click **Create Client**
 6. **Copy and securely store** the generated `Client ID` and `Client Secret`
 
 > ⚠️ **Important**: The Client Secret is only shown once. Store it securely!
