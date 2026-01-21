@@ -36,7 +36,40 @@ The Renderbase backend must have:
 
 ### Create OAuth Client in Renderbase
 
-Before starting in Make.com, create an OAuth client in Renderbase:
+Before starting in Make.com, you need to create an OAuth client in Renderbase. This is a **one-time setup** that provides the credentials used by all Make.com users.
+
+#### Option 1: Via Renderbase Admin Dashboard
+
+1. Log in to the Renderbase Admin Dashboard at `https://admin.renderbase.dev`
+2. Navigate to **Settings** → **OAuth Clients** (or **Integrations** → **OAuth**)
+3. Click **Create New OAuth Client**
+4. Fill in the details:
+   - **Name**: `Make.com Integration`
+   - **Redirect URIs**:
+     - `https://www.make.com/oauth/cb/app`
+     - `https://www.integromat.com/oauth/cb/app`
+   - **Scopes**: Select all required scopes:
+     - `documents:generate`
+     - `documents:read`
+     - `templates:read`
+     - `webhooks:read`
+     - `webhooks:write`
+     - `profile:read`
+   - **Grant Types**: `Authorization Code`, `Refresh Token`
+5. Click **Create**
+6. **Copy and securely store** the generated `Client ID` and `Client Secret`
+
+> ⚠️ **Important**: The Client Secret is only shown once. Store it securely!
+
+#### Option 2: Via Renderbase API
+
+If you prefer using the API or need to automate the setup:
+
+**Step 1: Get an Admin API Token**
+
+Log in to the Renderbase Admin Dashboard and generate an admin API token from **Settings** → **API Tokens**.
+
+**Step 2: Create the OAuth Client**
 
 ```bash
 curl -X POST https://api.renderbase.dev/api/admin/oauth/clients \
@@ -61,7 +94,35 @@ curl -X POST https://api.renderbase.dev/api/admin/oauth/clients \
   }'
 ```
 
-**Save the returned `client_id` and `client_secret` - you'll need them later.**
+**Step 3: Save the Response**
+
+The API returns the OAuth client details:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "oauth_client_abc123",
+    "clientId": "rb_xxxxxxxxxxxxxxxx",
+    "clientSecret": "rb_secret_xxxxxxxxxxxxxxxx",
+    "name": "Make.com Integration",
+    "redirectUris": ["https://www.make.com/oauth/cb/app", "..."],
+    "scopes": ["documents:generate", "..."],
+    "createdAt": "2026-01-21T10:00:00Z"
+  }
+}
+```
+
+**Copy and securely store the `clientId` and `clientSecret` values.**
+
+#### What to Do with These Credentials
+
+These credentials will be entered in the Make.com Custom Apps interface:
+
+1. `clientId` → Goes in the **Common Data** tab
+2. `clientSecret` → Goes in the **Common Data** tab
+
+End users of your Make.com integration will **never see these credentials**. They simply click "Connect" and authenticate with their own Renderbase account via OAuth.
 
 ---
 
