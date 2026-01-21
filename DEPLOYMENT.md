@@ -491,7 +491,7 @@ Repeat using [`src/rpcs/list-excel-templates/communication.json`](./src/rpcs/lis
 
 ## Configuring Webhooks
 
-Webhooks enable instant triggers to receive real-time events.
+Webhooks enable instant triggers to receive real-time events from Renderbase.
 
 ### Webhook: Document Events
 
@@ -499,12 +499,42 @@ Webhooks enable instant triggers to receive real-time events.
 2. Click **+ Create a new webhook**
 3. Set **Name** to `documentEvents`
 4. Set **Label** to `Document Events`
-5. Set **Type** to `Web` (shared webhook)
-6. Select **Connection**: `oauth2`
+5. Set **Type** to `Dedicated` (each user gets their own webhook URL)
+6. Check **Attached** (Make.com will automatically register/unregister webhooks via API)
+7. Select **Connection**: `oauth2`
 
 **Configure each tab:**
 
+**Communication Tab** - paste [`src/webhooks/document-events/communication.json`](./src/webhooks/document-events/communication.json):
+
+This handles incoming webhook data and challenge verification:
+```json
+{
+  "verification": {
+    "condition": "{{if(body.challenge, true, false)}}",
+    "respond": {
+      "status": 200,
+      "type": "json",
+      "body": {
+        "challenge": "{{body.challenge}}"
+      }
+    }
+  },
+  "output": {
+    "id": "{{body.id}}",
+    "type": "{{body.type}}",
+    "timestamp": "{{body.timestamp}}",
+    "jobId": "{{body.data.jobId}}",
+    "templateId": "{{body.data.templateId}}",
+    "status": "{{body.data.status}}",
+    "downloadUrl": "{{body.data.downloadUrl}}"
+  }
+}
+```
+
 **Attach Tab** - paste [`src/webhooks/document-events/attach.json`](./src/webhooks/document-events/attach.json):
+
+This registers the webhook URL with Renderbase when a user enables a trigger:
 ```json
 {
   "url": "/webhook-subscriptions",
@@ -526,11 +556,40 @@ Webhooks enable instant triggers to receive real-time events.
 }
 ```
 
-**Detach Tab** - paste [`src/webhooks/document-events/detach.json`](./src/webhooks/document-events/detach.json)
+**Detach Tab** - paste [`src/webhooks/document-events/detach.json`](./src/webhooks/document-events/detach.json):
 
-**Parameters Tab** - paste [`src/webhooks/document-events/parameters.json`](./src/webhooks/document-events/parameters.json)
+This unregisters the webhook when a user disables the trigger:
+```json
+{
+  "url": "/webhook-subscriptions/{{webhook.webhookId}}",
+  "method": "DELETE",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  }
+}
+```
 
-**Verify Tab** (optional) - paste [`src/webhooks/document-events/verify.json`](./src/webhooks/document-events/verify.json)
+**Parameters Tab** - paste [`src/webhooks/document-events/parameters.json`](./src/webhooks/document-events/parameters.json):
+
+This defines the event selection UI shown to users:
+```json
+[
+  {
+    "name": "events",
+    "label": "Event Types",
+    "type": "select",
+    "required": true,
+    "multiple": true,
+    "options": [
+      { "label": "Document Completed", "value": "document.completed" },
+      { "label": "Document Failed", "value": "document.failed" },
+      { "label": "Batch Completed", "value": "batch.completed" }
+    ],
+    "help": "Select which events should trigger this webhook"
+  }
+]
+```
 
 ---
 
@@ -697,10 +756,10 @@ make-renderbase/
     │
     ├── webhooks/
     │   └── document-events/
-    │       ├── attach.json          # Webhook creation
-    │       ├── detach.json          # Webhook deletion
-    │       ├── parameters.json      # Event type selection
-    │       └── verify.json          # Challenge verification
+    │       ├── communication.json   # Incoming data processing & verification
+    │       ├── attach.json          # Webhook registration API call
+    │       ├── detach.json          # Webhook unregistration API call
+    │       └── parameters.json      # Event type selection UI
     │
     ├── modules/
     │   ├── generate-pdf/

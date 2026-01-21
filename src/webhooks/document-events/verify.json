@@ -1,9 +1,0 @@
-{
-  "condition": "{{if(body.challenge, true, false)}}",
-  "respond": {
-    "status": 200,
-    "body": {
-      "challenge": "{{body.challenge}}"
-    }
-  }
-}

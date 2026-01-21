@@ -1,0 +1,32 @@
+{
+  "verification": {
+    "condition": "{{if(body.challenge, true, false)}}",
+    "respond": {
+      "status": 200,
+      "type": "json",
+      "body": {
+        "challenge": "{{body.challenge}}"
+      }
+    }
+  },
+  "output": {
+    "id": "{{body.id}}",
+    "type": "{{body.type}}",
+    "timestamp": "{{body.timestamp}}",
+    "jobId": "{{body.data.jobId}}",
+    "batchId": "{{body.data.batchId}}",
+    "templateId": "{{body.data.templateId}}",
+    "templateName": "{{body.data.templateName}}",
+    "format": "{{body.data.format}}",
+    "status": "{{body.data.status}}",
+    "downloadUrl": "{{body.data.downloadUrl}}",
+    "fileSize": "{{body.data.fileSize}}",
+    "error": "{{body.data.error}}",
+    "errorCode": "{{body.data.errorCode}}",
+    "totalDocuments": "{{body.data.totalDocuments}}",
+    "successCount": "{{body.data.successCount}}",
+    "failureCount": "{{body.data.failureCount}}",
+    "completedAt": "{{body.data.completedAt}}",
+    "failedAt": "{{body.data.failedAt}}"
+  }
+}
