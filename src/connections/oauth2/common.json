@@ -1,16 +1,4 @@
-[
-  {
-    "name": "clientId",
-    "label": "Client ID",
-    "type": "text",
-    "required": true,
-    "help": "Enter the OAuth Client ID from your Renderbase integration settings"
-  },
-  {
-    "name": "clientSecret",
-    "label": "Client Secret",
-    "type": "password",
-    "required": true,
-    "help": "Enter the OAuth Client Secret from your Renderbase integration settings"
-  }
-]
+{
+  "clientId": "YOUR_RENDERBASE_OAUTH_CLIENT_ID",
+  "clientSecret": "YOUR_RENDERBASE_OAUTH_CLIENT_SECRET"
+}

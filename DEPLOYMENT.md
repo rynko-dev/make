@@ -234,26 +234,18 @@ Click the **Communication** tab and paste the contents of `src/connections/oauth
 
 ### Step 3: Configure Common Data Tab
 
-Click the **Common Data** tab and paste the contents of `src/connections/oauth2/common.json`:
+Click the **Common Data** tab. This contains the OAuth client credentials that are **the same for all users** of your integration.
+
+Enter the actual Client ID and Client Secret you obtained from Renderbase in the Prerequisites step:
 
 ```json
-[
-  {
-    "name": "clientId",
-    "label": "Client ID",
-    "type": "text",
-    "required": true,
-    "help": "Enter the OAuth Client ID from your Renderbase integration settings"
-  },
-  {
-    "name": "clientSecret",
-    "label": "Client Secret",
-    "type": "password",
-    "required": true,
-    "help": "Enter the OAuth Client Secret from your Renderbase integration settings"
-  }
-]
+{
+  "clientId": "YOUR_ACTUAL_RENDERBASE_CLIENT_ID",
+  "clientSecret": "YOUR_ACTUAL_RENDERBASE_CLIENT_SECRET"
+}
 ```
+
+> **Important:** Replace the placeholder values with your actual OAuth client credentials from Renderbase. These values are encrypted and stored securely by Make.com. All users of your integration will use these same credentials - individual users authenticate via OAuth, not by entering these values.
 
 ### Step 4: Configure Scope Tab
 
@@ -491,9 +483,9 @@ Webhooks enable instant triggers to receive real-time events.
 4. Search for your app name ("Renderbase")
 5. Select any module (e.g., "Generate PDF")
 6. Click **Create a connection**
-7. Enter the OAuth Client ID and Client Secret from the prerequisites
-8. Click **Save** and complete the OAuth authorization flow
-9. Verify the connection shows the user's email
+7. You'll be redirected to Renderbase to authorize the connection
+8. Log in to your Renderbase account and approve the permissions
+9. Verify the connection shows your email in Make.com
 
 ### Step 2: Test Action Modules
 
