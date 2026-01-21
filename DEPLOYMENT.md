@@ -147,6 +147,13 @@ Connections handle authentication between Make.com and Renderbase. The Make.com 
 3. Set **Name** to `oauth2`
 4. Set **Label** to `Renderbase OAuth`
 5. Set **Type** to `OAuth 2.0`
+6. Select **OAuth 2.0 Type**: `Authorization Code + Refresh Token`
+
+> **OAuth 2.0 Types in Make.com:**
+> - **Authorization Code** - Basic OAuth without refresh tokens
+> - **Authorization Code + Refresh Token** - ✅ Use this one (supports automatic token refresh)
+> - **Resource Owner Credentials** - For username/password authentication
+> - **Client Credentials** - For server-to-server authentication
 
 ### Step 2: Configure Communication Tab
 
