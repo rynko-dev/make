@@ -62,15 +62,15 @@ If this is your first app:
 |-------|-------|
 | **App Name** | Renderbase |
 | **App Slug** | renderbase |
-| **Description** | Send transactional emails with dynamically generated PDF and Excel attachments |
-| **Category** | Email |
+| **Description** | Generate PDF and Excel documents from templates with a simple API |
+| **Category** | Documents |
 | **Version** | 1.0.0 |
 
 ### 2. Configure App Settings
 
 **Branding:**
 - Upload Renderbase logo (512x512px PNG)
-- Set brand color: `#your-brand-color`
+- Set brand color: `#F97316`
 
 **URLs:**
 - Homepage: `https://renderbase.dev`
@@ -100,8 +100,8 @@ curl -X POST https://api.renderbase.dev/api/admin/oauth/clients \
       "https://www.make.com/oauth/cb/app"
     ],
     "scopes": [
-      "emails:send",
-      "emails:read",
+      "documents:write",
+      "documents:read",
       "templates:read",
       "webhooks:read",
       "webhooks:write",
@@ -141,7 +141,7 @@ https://api.renderbase.dev/api/oauth/token
 
 **Scopes:**
 ```
-emails:send emails:read templates:read webhooks:read webhooks:write profile:read
+documents:write documents:read templates:read webhooks:read webhooks:write profile:read
 ```
 
 **Refresh Token Settings:**
@@ -186,7 +186,7 @@ In **Connections**, create OAuth connection using `src/connections/oauth2.json`.
 
 ### 3. Upload Webhooks
 
-In **Webhooks** section, upload `src/webhooks/email-events.json`.
+In **Webhooks** section, upload `src/webhooks/document-events.json`.
 
 ### 4. Upload Modules
 
@@ -199,21 +199,17 @@ For each module file in `src/modules/`:
 5. Save and test
 
 **Trigger Modules:**
-- `watch-email-sent.json`
-- `watch-email-delivered.json`
-- `watch-email-opened.json`
-- `watch-email-clicked.json`
-- `watch-email-bounced.json`
-- `watch-unsubscribe.json`
+- `watch-document-completed.json`
+- `watch-document-failed.json`
+- `watch-batch-completed.json`
 
 **Action Modules:**
-- `send-email.json`
-- `send-email-pdf.json`
-- `send-email-excel.json`
-- `send-bulk-email.json`
+- `generate-pdf.json`
+- `generate-excel.json`
+- `generate-batch.json`
 
 **Search Modules:**
-- `get-email.json`
+- `get-document.json`
 
 ### 5. Upload RPCs
 
@@ -243,25 +239,25 @@ In **Groups** section, configure module organization using `src/groups.json`.
 
 1. Create a new scenario
 2. Add a Renderbase trigger module
-3. Choose "Watch Email Sent"
+3. Choose "Watch Document Completed"
 4. Select your connection
 5. Click **Run once**
-6. Send a test email from Renderbase
+6. Generate a test document from Renderbase
 7. Verify the trigger receives the event
 
 ### 3. Test Actions
 
 1. Add a Renderbase action module
-2. Choose "Send Email"
+2. Choose "Generate PDF"
 3. Select template from dropdown
-4. Fill in recipient details
+4. Fill in variable values
 5. Run the scenario
-6. Verify email is sent
+6. Verify document is generated
 
 ### 4. Test Search
 
-1. Add "Find Email" module
-2. Search by email ID or recipient
+1. Add "Get Document" module
+2. Search by document job ID
 3. Verify results returned correctly
 
 ---
@@ -379,9 +375,9 @@ Once approved:
 
 | Type | Purpose | Example |
 |------|---------|---------|
-| Trigger | Start scenario on event | Watch Email Sent |
-| Action | Perform an operation | Send Email |
-| Search | Find and return data | Find Email |
+| Trigger | Start scenario on event | Watch Document Completed |
+| Action | Perform an operation | Generate PDF |
+| Search | Find and return data | Get Document |
 | Instant Trigger | Real-time webhook trigger | All our triggers |
 
 ### File Structure
@@ -399,11 +395,15 @@ make-renderbase/
     ├── connections/
     │   └── oauth2.json   # OAuth configuration
     ├── webhooks/
-    │   └── email-events.json
+    │   └── document-events.json
     ├── modules/
-    │   ├── watch-*.json  # Trigger modules
-    │   ├── send-*.json   # Action modules
-    │   └── get-*.json    # Search modules
+    │   ├── watch-document-completed.json
+    │   ├── watch-document-failed.json
+    │   ├── watch-batch-completed.json
+    │   ├── generate-pdf.json
+    │   ├── generate-excel.json
+    │   ├── generate-batch.json
+    │   └── get-document.json
     └── rpcs/
         └── list-*.json   # Dynamic dropdown data
 ```
@@ -414,5 +414,5 @@ make-renderbase/
 |----------|-----|
 | Make.com Developer Portal | https://www.make.com/en/integrations |
 | Make.com API Docs | https://www.make.com/en/api-documentation |
-| Renderbase API Docs | https://docs.renderbase.dev/api |
-| Renderbase OAuth Docs | https://docs.renderbase.dev/oauth |
+| Renderbase API Docs | https://docs.renderbase.dev/api-reference |
+| Renderbase OAuth Docs | https://docs.renderbase.dev/developer-guide/oauth |
