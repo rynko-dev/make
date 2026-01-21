@@ -1,0 +1,88 @@
+{
+  "name": "generateExcel",
+  "label": "Generate Excel",
+  "description": "Generate an Excel spreadsheet from a template",
+  "type": "action",
+  "connection": "oauth2",
+  "api": {
+    "url": "{{base.baseUrl}}/documents/generate",
+    "method": "POST",
+    "headers": "{{common.headers}}",
+    "body": {
+      "templateId": "{{parameters.templateId}}",
+      "format": "excel",
+      "variables": "{{parameters.variables}}",
+      "fileName": "{{parameters.fileName}}",
+      "waitForCompletion": "{{parameters.waitForCompletion}}"
+    },
+    "response": {
+      "output": "{{body.data}}"
+    }
+  },
+  "parameters": [
+    {
+      "name": "templateId",
+      "label": "Excel Template",
+      "type": "select",
+      "required": true,
+      "options": {
+        "store": "rpc://listExcelTemplates",
+        "label": "{{item.name}}",
+        "value": "{{item.id}}"
+      },
+      "help": "Select an Excel template from your Renderbase account"
+    },
+    {
+      "name": "variables",
+      "label": "Template Variables",
+      "type": "collection",
+      "required": false,
+      "spec": [
+        { "name": "key", "label": "Variable Name", "type": "text" },
+        { "name": "value", "label": "Variable Value", "type": "text" }
+      ],
+      "help": "Dynamic variables for the template"
+    },
+    {
+      "name": "fileName",
+      "label": "File Name",
+      "type": "text",
+      "required": false,
+      "help": "Custom file name (without .xlsx extension). Default: template name"
+    },
+    {
+      "name": "waitForCompletion",
+      "label": "Wait for Completion",
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "help": "Wait for the Excel file to be generated before continuing"
+    }
+  ],
+  "output": [
+    { "name": "id", "label": "Job ID", "type": "text" },
+    { "name": "status", "label": "Status", "type": "text" },
+    { "name": "templateId", "label": "Template ID", "type": "text" },
+    { "name": "templateName", "label": "Template Name", "type": "text" },
+    { "name": "format", "label": "Format", "type": "text" },
+    { "name": "fileName", "label": "File Name", "type": "text" },
+    { "name": "downloadUrl", "label": "Download URL", "type": "text" },
+    { "name": "fileSize", "label": "File Size (bytes)", "type": "number" },
+    { "name": "createdAt", "label": "Created At", "type": "date" },
+    { "name": "completedAt", "label": "Completed At", "type": "date" }
+  ],
+  "samples": [
+    {
+      "id": "job_abc123",
+      "status": "completed",
+      "templateId": "tmpl_xyz789",
+      "templateName": "Sales Report Template",
+      "format": "excel",
+      "fileName": "Sales-Report-2025.xlsx",
+      "downloadUrl": "https://api.renderbase.dev/v1/documents/job_abc123/download",
+      "fileSize": 89000,
+      "createdAt": "2025-01-15T10:30:00Z",
+      "completedAt": "2025-01-15T10:30:05Z"
+    }
+  ]
+}

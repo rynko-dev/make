@@ -1,0 +1,99 @@
+{
+  "name": "generateBatch",
+  "label": "Generate Batch Documents",
+  "description": "Generate multiple documents from a single template with different variables",
+  "type": "action",
+  "connection": "oauth2",
+  "api": {
+    "url": "{{base.baseUrl}}/documents/generate/batch",
+    "method": "POST",
+    "headers": "{{common.headers}}",
+    "body": {
+      "templateId": "{{parameters.templateId}}",
+      "format": "{{parameters.format}}",
+      "documents": "{{parameters.documents}}",
+      "waitForCompletion": "{{parameters.waitForCompletion}}"
+    },
+    "response": {
+      "output": "{{body.data}}"
+    }
+  },
+  "parameters": [
+    {
+      "name": "templateId",
+      "label": "Template",
+      "type": "select",
+      "required": true,
+      "options": {
+        "store": "rpc://listTemplates",
+        "label": "{{item.name}}",
+        "value": "{{item.id}}"
+      },
+      "help": "Select a template from your Renderbase account"
+    },
+    {
+      "name": "format",
+      "label": "Output Format",
+      "type": "select",
+      "required": true,
+      "options": [
+        { "label": "PDF", "value": "pdf" },
+        { "label": "Excel", "value": "excel" }
+      ],
+      "help": "Choose the output format for all documents in this batch"
+    },
+    {
+      "name": "documents",
+      "label": "Documents",
+      "type": "array",
+      "required": true,
+      "spec": [
+        {
+          "name": "variables",
+          "label": "Template Variables",
+          "type": "collection",
+          "spec": [
+            { "name": "key", "label": "Variable Name", "type": "text" },
+            { "name": "value", "label": "Variable Value", "type": "text" }
+          ]
+        },
+        { "name": "fileName", "label": "File Name", "type": "text" }
+      ],
+      "help": "List of documents to generate, each with its own variables"
+    },
+    {
+      "name": "waitForCompletion",
+      "label": "Wait for Completion",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "Wait for all documents to be generated. For large batches, set to false and use the Batch Completed trigger"
+    }
+  ],
+  "output": [
+    { "name": "id", "label": "Batch ID", "type": "text" },
+    { "name": "status", "label": "Status", "type": "text" },
+    { "name": "templateId", "label": "Template ID", "type": "text" },
+    { "name": "format", "label": "Format", "type": "text" },
+    { "name": "totalDocuments", "label": "Total Documents", "type": "number" },
+    { "name": "successCount", "label": "Success Count", "type": "number" },
+    { "name": "failureCount", "label": "Failure Count", "type": "number" },
+    { "name": "downloadUrl", "label": "Download URL (ZIP)", "type": "text" },
+    { "name": "createdAt", "label": "Created At", "type": "date" },
+    { "name": "completedAt", "label": "Completed At", "type": "date" }
+  ],
+  "samples": [
+    {
+      "id": "batch_abc123",
+      "status": "processing",
+      "templateId": "tmpl_xyz789",
+      "format": "pdf",
+      "totalDocuments": 10,
+      "successCount": 0,
+      "failureCount": 0,
+      "downloadUrl": null,
+      "createdAt": "2025-01-15T10:30:00Z",
+      "completedAt": null
+    }
+  ]
+}
