@@ -1,0 +1,48 @@
+[
+  {
+    "name": "templateId",
+    "label": "PDF Template",
+    "type": "select",
+    "required": true,
+    "options": {
+      "store": "rpc://listPdfTemplates",
+      "label": "{{item.name}}",
+      "value": "{{item.id}}"
+    },
+    "help": "Select a PDF template from your Renderbase account"
+  },
+  {
+    "name": "variables",
+    "label": "Template Variables",
+    "type": "collection",
+    "required": false,
+    "spec": [
+      {
+        "name": "key",
+        "label": "Variable Name",
+        "type": "text"
+      },
+      {
+        "name": "value",
+        "label": "Variable Value",
+        "type": "any"
+      }
+    ],
+    "help": "Key-value pairs for template variables. Use the variable names defined in your template."
+  },
+  {
+    "name": "fileName",
+    "label": "File Name",
+    "type": "text",
+    "required": false,
+    "help": "Custom file name without the .pdf extension. Defaults to the template name if not provided."
+  },
+  {
+    "name": "waitForCompletion",
+    "label": "Wait for Completion",
+    "type": "boolean",
+    "required": false,
+    "default": true,
+    "help": "If enabled, the module waits until the PDF is fully generated. Disable for async processing."
+  }
+]

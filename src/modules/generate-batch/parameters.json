@@ -1,0 +1,70 @@
+[
+  {
+    "name": "templateId",
+    "label": "Template",
+    "type": "select",
+    "required": true,
+    "options": {
+      "store": "rpc://listTemplates",
+      "label": "{{item.name}}",
+      "value": "{{item.id}}"
+    },
+    "help": "Select a template from your Renderbase account"
+  },
+  {
+    "name": "format",
+    "label": "Output Format",
+    "type": "select",
+    "required": true,
+    "options": [
+      {
+        "label": "PDF",
+        "value": "pdf"
+      },
+      {
+        "label": "Excel",
+        "value": "excel"
+      }
+    ],
+    "help": "Choose the output format for all documents in this batch"
+  },
+  {
+    "name": "documents",
+    "label": "Documents",
+    "type": "array",
+    "required": true,
+    "spec": [
+      {
+        "name": "variables",
+        "label": "Template Variables",
+        "type": "collection",
+        "spec": [
+          {
+            "name": "key",
+            "label": "Variable Name",
+            "type": "text"
+          },
+          {
+            "name": "value",
+            "label": "Variable Value",
+            "type": "any"
+          }
+        ]
+      },
+      {
+        "name": "fileName",
+        "label": "File Name",
+        "type": "text"
+      }
+    ],
+    "help": "List of documents to generate. Each document has its own variables and optional file name."
+  },
+  {
+    "name": "waitForCompletion",
+    "label": "Wait for Completion",
+    "type": "boolean",
+    "required": false,
+    "default": false,
+    "help": "Wait for all documents to be generated. For large batches, disable this and use the Batch Completed trigger."
+  }
+]

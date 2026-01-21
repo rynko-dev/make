@@ -1,0 +1,8 @@
+{
+  "url": "/webhook-subscriptions/{{webhook.webhookId}}",
+  "method": "DELETE",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  }
+}

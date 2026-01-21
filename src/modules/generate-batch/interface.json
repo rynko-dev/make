@@ -1,0 +1,52 @@
+[
+  {
+    "name": "id",
+    "label": "Batch ID",
+    "type": "text"
+  },
+  {
+    "name": "status",
+    "label": "Status",
+    "type": "text"
+  },
+  {
+    "name": "templateId",
+    "label": "Template ID",
+    "type": "text"
+  },
+  {
+    "name": "format",
+    "label": "Format",
+    "type": "text"
+  },
+  {
+    "name": "totalDocuments",
+    "label": "Total Documents",
+    "type": "uinteger"
+  },
+  {
+    "name": "successCount",
+    "label": "Success Count",
+    "type": "uinteger"
+  },
+  {
+    "name": "failureCount",
+    "label": "Failure Count",
+    "type": "uinteger"
+  },
+  {
+    "name": "downloadUrl",
+    "label": "Download URL (ZIP)",
+    "type": "url"
+  },
+  {
+    "name": "createdAt",
+    "label": "Created At",
+    "type": "date"
+  },
+  {
+    "name": "completedAt",
+    "label": "Completed At",
+    "type": "date"
+  }
+]

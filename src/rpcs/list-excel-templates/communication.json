@@ -1,0 +1,19 @@
+{
+  "url": "/templates",
+  "method": "GET",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "qs": {
+    "limit": 100,
+    "format": "excel"
+  },
+  "response": {
+    "iterate": "{{body.data}}",
+    "output": {
+      "value": "{{item.id}}",
+      "label": "{{item.name}}"
+    }
+  }
+}

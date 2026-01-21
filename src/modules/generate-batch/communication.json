@@ -1,0 +1,17 @@
+{
+  "url": "/documents/generate/batch",
+  "method": "POST",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "templateId": "{{parameters.templateId}}",
+    "format": "{{parameters.format}}",
+    "documents": "{{parameters.documents}}",
+    "waitForCompletion": "{{ifempty(parameters.waitForCompletion, false)}}"
+  },
+  "response": {
+    "output": "{{body.data}}"
+  }
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "name": "events",
+    "label": "Event Types",
+    "type": "select",
+    "required": true,
+    "multiple": true,
+    "options": [
+      {
+        "label": "Document Completed",
+        "value": "document.completed"
+      },
+      {
+        "label": "Document Failed",
+        "value": "document.failed"
+      },
+      {
+        "label": "Batch Completed",
+        "value": "batch.completed"
+      }
+    ],
+    "help": "Select which events should trigger this webhook"
+  }
+]

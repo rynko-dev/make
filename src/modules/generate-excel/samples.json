@@ -1,0 +1,14 @@
+[
+  {
+    "id": "job_def456xyz",
+    "status": "completed",
+    "templateId": "tmpl_abc123def",
+    "templateName": "Sales Report Template",
+    "format": "excel",
+    "fileName": "Sales-Report-2026.xlsx",
+    "downloadUrl": "https://api.renderbase.dev/api/v1/documents/job_def456xyz/download",
+    "fileSize": 89000,
+    "createdAt": "2026-01-15T10:30:00Z",
+    "completedAt": "2026-01-15T10:30:05Z"
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "job_abc123xyz",
+    "status": "completed",
+    "templateId": "tmpl_xyz789abc",
+    "templateName": "Invoice Template",
+    "format": "pdf",
+    "fileName": "Invoice-12345.pdf",
+    "downloadUrl": "https://api.renderbase.dev/api/v1/documents/job_abc123xyz/download",
+    "fileSize": 125000,
+    "error": null,
+    "createdAt": "2026-01-15T10:30:00Z",
+    "completedAt": "2026-01-15T10:30:05Z"
+  }
+]

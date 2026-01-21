@@ -1,0 +1,64 @@
+[
+  {
+    "name": "id",
+    "label": "Event ID",
+    "type": "text"
+  },
+  {
+    "name": "type",
+    "label": "Event Type",
+    "type": "text"
+  },
+  {
+    "name": "timestamp",
+    "label": "Timestamp",
+    "type": "date"
+  },
+  {
+    "name": "data",
+    "label": "Data",
+    "type": "collection",
+    "spec": [
+      {
+        "name": "jobId",
+        "label": "Job ID",
+        "type": "text"
+      },
+      {
+        "name": "templateId",
+        "label": "Template ID",
+        "type": "text"
+      },
+      {
+        "name": "templateName",
+        "label": "Template Name",
+        "type": "text"
+      },
+      {
+        "name": "format",
+        "label": "Format",
+        "type": "text"
+      },
+      {
+        "name": "status",
+        "label": "Status",
+        "type": "text"
+      },
+      {
+        "name": "error",
+        "label": "Error Message",
+        "type": "text"
+      },
+      {
+        "name": "errorCode",
+        "label": "Error Code",
+        "type": "text"
+      },
+      {
+        "name": "failedAt",
+        "label": "Failed At",
+        "type": "date"
+      }
+    ]
+  }
+]

@@ -1,0 +1,70 @@
+{
+  "authorize": {
+    "url": "{{base.authorizationUrl}}",
+    "qs": {
+      "client_id": "{{common.clientId}}",
+      "redirect_uri": "{{oauth.redirectUri}}",
+      "response_type": "code",
+      "scope": "{{oauth.scope}}",
+      "state": "{{oauth.state}}"
+    }
+  },
+  "token": {
+    "url": "{{base.tokenUrl}}",
+    "method": "POST",
+    "body": {
+      "grant_type": "authorization_code",
+      "code": "{{oauth.code}}",
+      "client_id": "{{common.clientId}}",
+      "client_secret": "{{common.clientSecret}}",
+      "redirect_uri": "{{oauth.redirectUri}}"
+    },
+    "response": {
+      "data": {
+        "accessToken": "{{body.access_token}}",
+        "refreshToken": "{{body.refresh_token}}"
+      },
+      "expires": "{{addSeconds(now, body.expires_in)}}"
+    }
+  },
+  "refresh": {
+    "url": "{{base.tokenUrl}}",
+    "method": "POST",
+    "body": {
+      "grant_type": "refresh_token",
+      "refresh_token": "{{connection.refreshToken}}",
+      "client_id": "{{common.clientId}}",
+      "client_secret": "{{common.clientSecret}}"
+    },
+    "response": {
+      "data": {
+        "accessToken": "{{body.access_token}}",
+        "refreshToken": "{{body.refresh_token}}"
+      },
+      "expires": "{{addSeconds(now, body.expires_in)}}"
+    }
+  },
+  "info": {
+    "url": "{{base.baseUrl}}/auth/verify",
+    "headers": {
+      "Authorization": "Bearer {{connection.accessToken}}"
+    },
+    "response": {
+      "uid": "{{body.data.id}}",
+      "metadata": {
+        "type": "email",
+        "value": "{{body.data.email}}"
+      }
+    }
+  },
+  "invalidate": {
+    "url": "{{base.baseUrl}}/auth/revoke",
+    "method": "POST",
+    "headers": {
+      "Authorization": "Bearer {{connection.accessToken}}"
+    },
+    "body": {
+      "token": "{{connection.accessToken}}"
+    }
+  }
+}

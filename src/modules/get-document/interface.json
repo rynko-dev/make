@@ -1,0 +1,57 @@
+[
+  {
+    "name": "id",
+    "label": "Job ID",
+    "type": "text"
+  },
+  {
+    "name": "status",
+    "label": "Status",
+    "type": "text"
+  },
+  {
+    "name": "templateId",
+    "label": "Template ID",
+    "type": "text"
+  },
+  {
+    "name": "templateName",
+    "label": "Template Name",
+    "type": "text"
+  },
+  {
+    "name": "format",
+    "label": "Format",
+    "type": "text"
+  },
+  {
+    "name": "fileName",
+    "label": "File Name",
+    "type": "text"
+  },
+  {
+    "name": "downloadUrl",
+    "label": "Download URL",
+    "type": "url"
+  },
+  {
+    "name": "fileSize",
+    "label": "File Size (bytes)",
+    "type": "uinteger"
+  },
+  {
+    "name": "error",
+    "label": "Error (if failed)",
+    "type": "text"
+  },
+  {
+    "name": "createdAt",
+    "label": "Created At",
+    "type": "date"
+  },
+  {
+    "name": "completedAt",
+    "label": "Completed At",
+    "type": "date"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "evt_sample_456def",
+    "type": "document.failed",
+    "timestamp": "2026-01-15T10:30:00Z",
+    "data": {
+      "jobId": "job_def456xyz",
+      "templateId": "tmpl_xyz789abc",
+      "templateName": "Invoice Template",
+      "format": "pdf",
+      "status": "failed",
+      "error": "Template variable 'customerName' is required but was not provided",
+      "errorCode": "ERR_MISSING_VARIABLE",
+      "failedAt": "2026-01-15T10:30:00Z"
+    }
+  }
+]

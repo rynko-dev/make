@@ -1,0 +1,18 @@
+{
+  "url": "/webhook-subscriptions",
+  "method": "POST",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "url": "{{webhook.url}}",
+    "events": "{{parameters.events}}",
+    "name": "Make.com - {{parameters.events}}"
+  },
+  "response": {
+    "data": {
+      "webhookId": "{{body.data.id}}"
+    }
+  }
+}

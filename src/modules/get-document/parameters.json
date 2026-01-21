@@ -1,0 +1,9 @@
+[
+  {
+    "name": "jobId",
+    "label": "Job ID",
+    "type": "text",
+    "required": true,
+    "help": "The unique ID of the document job to retrieve (e.g., job_abc123xyz)"
+  }
+]

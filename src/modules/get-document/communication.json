@@ -1,0 +1,11 @@
+{
+  "url": "/documents/{{parameters.jobId}}",
+  "method": "GET",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "response": {
+    "output": "{{body.data}}"
+  }
+}

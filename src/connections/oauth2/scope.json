@@ -1,0 +1,8 @@
+[
+  "documents:generate",
+  "documents:read",
+  "templates:read",
+  "webhooks:read",
+  "webhooks:write",
+  "profile:read"
+]

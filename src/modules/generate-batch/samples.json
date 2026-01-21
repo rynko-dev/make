@@ -1,0 +1,14 @@
+[
+  {
+    "id": "batch_abc123xyz",
+    "status": "processing",
+    "templateId": "tmpl_xyz789abc",
+    "format": "pdf",
+    "totalDocuments": 10,
+    "successCount": 0,
+    "failureCount": 0,
+    "downloadUrl": null,
+    "createdAt": "2026-01-15T10:30:00Z",
+    "completedAt": null
+  }
+]

@@ -88,7 +88,7 @@ In the pop-up form, enter the following:
 
 ### Step 3: Upload App Logo
 
-Upload the Renderbase logo (512x512px PNG recommended) from `assets/icon-512.png`.
+Upload the Renderbase logo (512x512px PNG recommended).
 
 ### Step 4: Save the App
 
@@ -138,190 +138,246 @@ Click **Save** to store the base configuration.
 
 ## Setting Up the Connection
 
-Connections handle authentication between Make.com and Renderbase.
+Connections handle authentication between Make.com and Renderbase. The Make.com interface has **separate tabs** for each configuration section.
 
 ### Step 1: Create New Connection
 
 1. Click **Connections** in the left sidebar
 2. Click **+ Create a new connection**
+3. Set **Name** to `oauth2`
+4. Set **Label** to `Renderbase OAuth`
+5. Set **Type** to `OAuth 2.0`
 
-### Step 2: Configure Connection
+### Step 2: Configure Communication Tab
 
-1. Set the **Name** to `oauth2`
-2. Set the **Label** to `Renderbase OAuth`
-3. Set the **Type** to `OAuth 2.0`
-
-### Step 3: Enter Connection JSON
-
-Copy the contents of `src/connections/oauth2.json` into the connection editor:
+Click the **Communication** tab and paste the contents of `src/connections/oauth2/communication.json`:
 
 ```json
 {
-  "name": "oauth2",
-  "label": "Renderbase OAuth",
-  "type": "oauth2",
-  "oauth2": {
-    "authorize": {
-      "url": "{{base.authorizationUrl}}",
-      "qs": {
-        "client_id": "{{common.clientId}}",
-        "redirect_uri": "{{oauth.redirectUri}}",
-        "response_type": "code",
-        "scope": "documents:generate documents:read templates:read webhooks:read webhooks:write profile:read",
-        "state": "{{oauth.state}}"
-      }
+  "authorize": {
+    "url": "{{base.authorizationUrl}}",
+    "qs": {
+      "client_id": "{{common.clientId}}",
+      "redirect_uri": "{{oauth.redirectUri}}",
+      "response_type": "code",
+      "scope": "{{oauth.scope}}",
+      "state": "{{oauth.state}}"
+    }
+  },
+  "token": {
+    "url": "{{base.tokenUrl}}",
+    "method": "POST",
+    "body": {
+      "grant_type": "authorization_code",
+      "code": "{{oauth.code}}",
+      "client_id": "{{common.clientId}}",
+      "client_secret": "{{common.clientSecret}}",
+      "redirect_uri": "{{oauth.redirectUri}}"
     },
-    "token": {
-      "url": "{{base.tokenUrl}}",
-      "method": "POST",
-      "body": {
-        "grant_type": "authorization_code",
-        "code": "{{oauth.code}}",
-        "client_id": "{{common.clientId}}",
-        "client_secret": "{{common.clientSecret}}",
-        "redirect_uri": "{{oauth.redirectUri}}"
+    "response": {
+      "data": {
+        "accessToken": "{{body.access_token}}",
+        "refreshToken": "{{body.refresh_token}}"
       },
-      "response": {
-        "data": {
-          "accessToken": "{{body.access_token}}",
-          "refreshToken": "{{body.refresh_token}}",
-          "expiresIn": "{{body.expires_in}}"
-        }
-      }
+      "expires": "{{addSeconds(now, body.expires_in)}}"
+    }
+  },
+  "refresh": {
+    "url": "{{base.tokenUrl}}",
+    "method": "POST",
+    "body": {
+      "grant_type": "refresh_token",
+      "refresh_token": "{{connection.refreshToken}}",
+      "client_id": "{{common.clientId}}",
+      "client_secret": "{{common.clientSecret}}"
     },
-    "refresh": {
-      "url": "{{base.tokenUrl}}",
-      "method": "POST",
-      "body": {
-        "grant_type": "refresh_token",
-        "refresh_token": "{{connection.refreshToken}}",
-        "client_id": "{{common.clientId}}",
-        "client_secret": "{{common.clientSecret}}"
+    "response": {
+      "data": {
+        "accessToken": "{{body.access_token}}",
+        "refreshToken": "{{body.refresh_token}}"
       },
-      "response": {
-        "data": {
-          "accessToken": "{{body.access_token}}",
-          "refreshToken": "{{body.refresh_token}}",
-          "expiresIn": "{{body.expires_in}}"
-        }
-      }
+      "expires": "{{addSeconds(now, body.expires_in)}}"
+    }
+  },
+  "info": {
+    "url": "{{base.baseUrl}}/auth/verify",
+    "headers": {
+      "Authorization": "Bearer {{connection.accessToken}}"
     },
-    "info": {
-      "url": "{{base.baseUrl}}/auth/verify",
-      "headers": {
-        "Authorization": "Bearer {{connection.accessToken}}"
-      },
-      "response": {
-        "data": {
-          "uid": "{{body.data.id}}",
-          "label": "{{body.data.email}}"
-        }
+    "response": {
+      "uid": "{{body.data.id}}",
+      "metadata": {
+        "type": "email",
+        "value": "{{body.data.email}}"
       }
     }
   },
-  "common": [
-    {
-      "name": "clientId",
-      "label": "Client ID",
-      "type": "text",
-      "required": true
+  "invalidate": {
+    "url": "{{base.baseUrl}}/auth/revoke",
+    "method": "POST",
+    "headers": {
+      "Authorization": "Bearer {{connection.accessToken}}"
     },
-    {
-      "name": "clientSecret",
-      "label": "Client Secret",
-      "type": "password",
-      "required": true
+    "body": {
+      "token": "{{connection.accessToken}}"
     }
-  ]
+  }
 }
 ```
 
-### Step 4: Save Connection
+### Step 3: Configure Common Data Tab
+
+Click the **Common Data** tab and paste the contents of `src/connections/oauth2/common.json`:
+
+```json
+[
+  {
+    "name": "clientId",
+    "label": "Client ID",
+    "type": "text",
+    "required": true,
+    "help": "Enter the OAuth Client ID from your Renderbase integration settings"
+  },
+  {
+    "name": "clientSecret",
+    "label": "Client Secret",
+    "type": "password",
+    "required": true,
+    "help": "Enter the OAuth Client Secret from your Renderbase integration settings"
+  }
+]
+```
+
+### Step 4: Configure Scope Tab
+
+Click the **Scope** tab and paste the contents of `src/connections/oauth2/scope.json`:
+
+```json
+[
+  "documents:generate",
+  "documents:read",
+  "templates:read",
+  "webhooks:read",
+  "webhooks:write",
+  "profile:read"
+]
+```
+
+### Step 5: Configure Scope List Tab (Optional)
+
+Click the **Scope List** tab and paste the contents of `src/connections/oauth2/scope-list.json` to provide descriptions for each scope.
+
+### Step 6: Save Connection
 
 Click **Save** to store the connection configuration.
-
-### Understanding the OAuth Flow
-
-1. **authorize**: Redirects user to Renderbase login page with required parameters
-2. **token**: Exchanges the authorization code for access and refresh tokens
-3. **refresh**: Automatically refreshes expired tokens (Make handles this automatically)
-4. **info**: Validates the connection and displays the connected user's email
 
 ---
 
 ## Creating Modules
 
-Modules are the building blocks users add to their scenarios. Create each module type as follows:
+Modules are the building blocks users add to their scenarios. Each module has **separate tabs** for different configuration sections.
 
-### Step 1: Access Modules Section
+### Action Module: Generate PDF
 
-Click **Modules** in the left sidebar.
+1. Click **Modules** in the left sidebar
+2. Click **+ Create a new module**
+3. Select type: **Action**
+4. Set **Name** to `generatePdf`
+5. Set **Label** to `Generate PDF`
+6. Set **Description** to `Generate a PDF document from a template`
+7. Select **Connection**: `oauth2`
 
-### Step 2: Create Action Modules
+**Configure each tab:**
 
-For each action module, click **+ Create a new module** and select **Action** as the type.
+**Communication Tab** - paste `src/modules/generate-pdf/communication.json`:
+```json
+{
+  "url": "/documents/generate",
+  "method": "POST",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "templateId": "{{parameters.templateId}}",
+    "format": "pdf",
+    "variables": "{{parameters.variables}}",
+    "fileName": "{{parameters.fileName}}",
+    "waitForCompletion": "{{ifempty(parameters.waitForCompletion, true)}}"
+  },
+  "response": {
+    "output": "{{body.data}}"
+  }
+}
+```
 
-**Generate PDF Module:**
+**Mappable Parameters Tab** - paste `src/modules/generate-pdf/parameters.json`
+
+**Interface Tab** - paste `src/modules/generate-pdf/interface.json`
+
+**Samples Tab** - paste `src/modules/generate-pdf/samples.json`
+
+**Scope Tab** - paste `src/modules/generate-pdf/scope.json`
+
+Click **Save**.
+
+### Action Module: Generate Excel
+
+Repeat the same process using files from `src/modules/generate-excel/`:
+- **Name**: `generateExcel`
+- **Label**: `Generate Excel`
+- **Description**: `Generate an Excel spreadsheet from a template`
+
+### Action Module: Generate Batch
+
+Repeat using files from `src/modules/generate-batch/`:
+- **Name**: `generateBatch`
+- **Label**: `Generate Batch Documents`
+- **Description**: `Generate multiple documents from a single template`
+
+### Search Module: Get Document
+
 1. Click **+ Create a new module**
-2. Select type: **Action**
-3. Enter name: `generatePdf`
-4. Enter label: `Generate PDF`
-5. Copy contents from `src/modules/generate-pdf.json`
-6. Click **Save**
+2. Select type: **Search** (or Action if retrieving single item)
+3. Set **Name** to `getDocument`
+4. Set **Label** to `Get Document`
+5. Configure tabs using files from `src/modules/get-document/`
 
-**Generate Excel Module:**
-1. Click **+ Create a new module**
-2. Select type: **Action**
-3. Enter name: `generateExcel`
-4. Enter label: `Generate Excel`
-5. Copy contents from `src/modules/generate-excel.json`
-6. Click **Save**
+### Instant Trigger: Watch Document Completed
 
-**Generate Batch Module:**
-1. Click **+ Create a new module**
-2. Select type: **Action**
-3. Enter name: `generateBatch`
-4. Enter label: `Generate Batch Documents`
-5. Copy contents from `src/modules/generate-batch.json`
-6. Click **Save**
-
-### Step 3: Create Search Modules
-
-**Get Document Module:**
-1. Click **+ Create a new module**
-2. Select type: **Search**
-3. Enter name: `getDocument`
-4. Enter label: `Get Document`
-5. Copy contents from `src/modules/get-document.json`
-6. Click **Save**
-
-### Step 4: Create Instant Trigger Modules
-
-For triggers that use webhooks, select **Instant Trigger** type.
-
-**Watch Document Completed:**
 1. Click **+ Create a new module**
 2. Select type: **Instant Trigger**
-3. Enter name: `watchDocumentCompleted`
-4. Enter label: `Watch Document Completed`
-5. Copy contents from `src/modules/watch-document-completed.json`
-6. Click **Save**
+3. Set **Name** to `watchDocumentCompleted`
+4. Set **Label** to `Watch Document Completed`
+5. Set **Description** to `Triggers when a document is successfully generated`
+6. Select **Webhook**: `documentEvents`
 
-**Watch Document Failed:**
-1. Click **+ Create a new module**
-2. Select type: **Instant Trigger**
-3. Enter name: `watchDocumentFailed`
-4. Enter label: `Watch Document Failed`
-5. Copy contents from `src/modules/watch-document-failed.json`
-6. Click **Save**
+**Configure each tab:**
 
-**Watch Batch Completed:**
-1. Click **+ Create a new module**
-2. Select type: **Instant Trigger**
-3. Enter name: `watchBatchCompleted`
-4. Enter label: `Watch Batch Completed`
-5. Copy contents from `src/modules/watch-batch-completed.json`
-6. Click **Save**
+**Static Parameters Tab** - paste `src/modules/watch-document-completed/static.json`:
+```json
+{
+  "events": ["document.completed"]
+}
+```
+
+**Interface Tab** - paste `src/modules/watch-document-completed/interface.json`
+
+**Samples Tab** - paste `src/modules/watch-document-completed/samples.json`
+
+### Instant Trigger: Watch Document Failed
+
+Repeat using files from `src/modules/watch-document-failed/`:
+- **Name**: `watchDocumentFailed`
+- **Label**: `Watch Document Failed`
+- **Static events**: `["document.failed"]`
+
+### Instant Trigger: Watch Batch Completed
+
+Repeat using files from `src/modules/watch-batch-completed/`:
+- **Name**: `watchBatchCompleted`
+- **Label**: `Watch Batch Completed`
+- **Static events**: `["batch.completed"]`
 
 ---
 
@@ -329,32 +385,47 @@ For triggers that use webhooks, select **Instant Trigger** type.
 
 RPCs provide dynamic data for module dropdowns, like template lists.
 
-### Step 1: Access RPCs Section
+### RPC: List Templates
 
-Click **Remote Procedures** in the left sidebar.
+1. Click **Remote Procedures** in the left sidebar
+2. Click **+ Create a new RPC**
+3. Set **Name** to `listTemplates`
+4. Set **Label** to `List Templates`
+5. Select **Connection**: `oauth2`
 
-### Step 2: Create RPCs
+**Communication Tab** - paste `src/rpcs/list-templates/communication.json`:
+```json
+{
+  "url": "/templates",
+  "method": "GET",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "qs": {
+    "limit": 100
+  },
+  "response": {
+    "iterate": "{{body.data}}",
+    "output": {
+      "value": "{{item.id}}",
+      "label": "{{item.name}}"
+    }
+  }
+}
+```
 
-**List Templates RPC:**
-1. Click **+ Create a new RPC**
-2. Enter name: `listTemplates`
-3. Enter label: `List Templates`
-4. Copy contents from `src/rpcs/list-templates.json`
-5. Click **Save**
+### RPC: List PDF Templates
 
-**List PDF Templates RPC:**
-1. Click **+ Create a new RPC**
-2. Enter name: `listPdfTemplates`
-3. Enter label: `List PDF Templates`
-4. Copy contents from `src/rpcs/list-pdf-templates.json`
-5. Click **Save**
+Repeat using `src/rpcs/list-pdf-templates/communication.json`:
+- **Name**: `listPdfTemplates`
+- Adds `"format": "pdf"` to query string
 
-**List Excel Templates RPC:**
-1. Click **+ Create a new RPC**
-2. Enter name: `listExcelTemplates`
-3. Enter label: `List Excel Templates`
-4. Copy contents from `src/rpcs/list-excel-templates.json`
-5. Click **Save**
+### RPC: List Excel Templates
+
+Repeat using `src/rpcs/list-excel-templates/communication.json`:
+- **Name**: `listExcelTemplates`
+- Adds `"format": "excel"` to query string
 
 ---
 
@@ -362,17 +433,44 @@ Click **Remote Procedures** in the left sidebar.
 
 Webhooks enable instant triggers to receive real-time events.
 
-### Step 1: Access Webhooks Section
+### Webhook: Document Events
 
-Click **Webhooks** in the left sidebar.
+1. Click **Webhooks** in the left sidebar
+2. Click **+ Create a new webhook**
+3. Set **Name** to `documentEvents`
+4. Set **Label** to `Document Events`
+5. Set **Type** to `Web` (shared webhook)
+6. Select **Connection**: `oauth2`
 
-### Step 2: Create Webhook Configuration
+**Configure each tab:**
 
-1. Click **+ Create a new webhook**
-2. Enter name: `documentEvents`
-3. Enter label: `Document Events`
-4. Copy contents from `src/webhooks/document-events.json`
-5. Click **Save**
+**Attach Tab** - paste `src/webhooks/document-events/attach.json`:
+```json
+{
+  "url": "/webhook-subscriptions",
+  "method": "POST",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "url": "{{webhook.url}}",
+    "events": "{{parameters.events}}",
+    "name": "Make.com - {{parameters.events}}"
+  },
+  "response": {
+    "data": {
+      "webhookId": "{{body.data.id}}"
+    }
+  }
+}
+```
+
+**Detach Tab** - paste `src/webhooks/document-events/detach.json`
+
+**Parameters Tab** - paste `src/webhooks/document-events/parameters.json`
+
+**Verify Tab** (optional) - paste `src/webhooks/document-events/verify.json`
 
 ---
 
@@ -456,9 +554,10 @@ Once approved:
 
 1. Open your app in the Custom Apps editor
 2. Navigate to the module you want to update
-3. Make your changes in the JSON editor
-4. Click **Save**
-5. Test the updated module in a scenario
+3. Select the appropriate tab (Communication, Parameters, etc.)
+4. Make your changes
+5. Click **Save**
+6. Test the updated module in a scenario
 
 ### Version Management
 
@@ -489,14 +588,14 @@ For significant changes:
 
 **Token Refresh Fails:**
 - Verify refresh token is being stored correctly
-- Check `refresh` block configuration
+- Check `refresh` block in Communication tab
 - Ensure refresh endpoint returns new tokens
 
 ### Module Issues
 
 **Template Dropdown Empty:**
 - Verify `templates:read` scope is granted
-- Check RPC configuration and endpoint
+- Check RPC Communication configuration
 - Test the API endpoint directly
 
 **Document Generation Fails:**
@@ -514,16 +613,77 @@ For significant changes:
 
 ---
 
+## File Structure
+
+The integration files are organized by component, with each component having separate files for each Make.com tab:
+
+```
+make-renderbase/
+├── app.json                    # App metadata
+├── base.json                   # Base configuration
+├── package.json                # Package info
+├── README.md                   # User documentation
+├── DEPLOYMENT.md               # This guide
+└── src/
+    ├── common.json             # Shared configuration
+    ├── groups.json             # Module grouping
+    │
+    ├── connections/
+    │   └── oauth2/
+    │       ├── communication.json   # OAuth flow (authorize, token, refresh, info)
+    │       ├── common.json          # Client ID/Secret fields
+    │       ├── scope.json           # Default scopes
+    │       └── scope-list.json      # Available scopes with descriptions
+    │
+    ├── webhooks/
+    │   └── document-events/
+    │       ├── attach.json          # Webhook creation
+    │       ├── detach.json          # Webhook deletion
+    │       ├── parameters.json      # Event type selection
+    │       └── verify.json          # Challenge verification
+    │
+    ├── modules/
+    │   ├── generate-pdf/
+    │   │   ├── communication.json   # API call configuration
+    │   │   ├── parameters.json      # Mappable input fields
+    │   │   ├── interface.json       # Output field definitions
+    │   │   ├── samples.json         # Example output data
+    │   │   └── scope.json           # Required scopes
+    │   │
+    │   ├── generate-excel/
+    │   │   └── ... (same structure)
+    │   │
+    │   ├── generate-batch/
+    │   │   └── ... (same structure)
+    │   │
+    │   ├── get-document/
+    │   │   └── ... (same structure)
+    │   │
+    │   ├── watch-document-completed/
+    │   │   ├── static.json          # Static parameters (event filter)
+    │   │   ├── interface.json       # Output field definitions
+    │   │   └── samples.json         # Example webhook payload
+    │   │
+    │   ├── watch-document-failed/
+    │   │   └── ... (same structure)
+    │   │
+    │   └── watch-batch-completed/
+    │       └── ... (same structure)
+    │
+    └── rpcs/
+        ├── list-templates/
+        │   └── communication.json   # API call for all templates
+        │
+        ├── list-pdf-templates/
+        │   └── communication.json   # API call for PDF templates
+        │
+        └── list-excel-templates/
+            └── communication.json   # API call for Excel templates
+```
+
+---
+
 ## Reference
-
-### Module Types
-
-| Type | Purpose | Example |
-|------|---------|---------|
-| Action | Perform a single operation | Generate PDF |
-| Search | Return multiple results | List Documents |
-| Instant Trigger | Real-time webhook events | Watch Document Completed |
-| Universal | Custom API calls | Advanced users |
 
 ### IML Variables
 
@@ -531,48 +691,26 @@ Make uses IML (Integromat Markup Language) for dynamic values:
 
 | Variable | Description |
 |----------|-------------|
-| `{{base.baseUrl}}` | Base URL from configuration |
-| `{{common.clientId}}` | OAuth client ID |
+| `{{base.baseUrl}}` | Base URL from Base configuration |
+| `{{common.clientId}}` | OAuth client ID from Common Data |
 | `{{connection.accessToken}}` | Current access token |
+| `{{connection.refreshToken}}` | Current refresh token |
 | `{{oauth.redirectUri}}` | Make's OAuth callback URL |
+| `{{oauth.code}}` | Authorization code from OAuth flow |
+| `{{oauth.state}}` | State parameter for CSRF protection |
+| `{{oauth.scope}}` | Requested OAuth scopes |
 | `{{parameters.fieldName}}` | Module input parameters |
 | `{{body.fieldName}}` | API response body fields |
-
-### File Structure
-
-```
-make-renderbase/
-├── app.json              # App metadata
-├── base.json             # Base configuration
-├── package.json          # Package info
-├── README.md             # User documentation
-├── DEPLOYMENT.md         # This guide
-└── src/
-    ├── common.json       # Shared secrets config
-    ├── groups.json       # Module grouping
-    ├── connections/
-    │   └── oauth2.json   # OAuth configuration
-    ├── webhooks/
-    │   └── document-events.json
-    ├── modules/
-    │   ├── generate-pdf.json
-    │   ├── generate-excel.json
-    │   ├── generate-batch.json
-    │   ├── get-document.json
-    │   ├── watch-document-completed.json
-    │   ├── watch-document-failed.json
-    │   └── watch-batch-completed.json
-    └── rpcs/
-        ├── list-templates.json
-        ├── list-pdf-templates.json
-        └── list-excel-templates.json
-```
+| `{{item.fieldName}}` | Current item in iteration |
+| `{{webhook.url}}` | Make-generated webhook URL |
+| `{{webhook.webhookId}}` | Stored webhook ID |
 
 ### Useful Links
 
 - [Make Developer Hub](https://developers.make.com/custom-apps-documentation)
-- [Make Custom Apps Documentation](https://developers.make.com/custom-apps-documentation/basics/create-your-app)
-- [OAuth 2.0 Connection Guide](https://developers.make.com/custom-apps-documentation/app-components/connections/oauth2)
-- [Module Documentation](https://developers.make.com/custom-apps-documentation/app-structure/modules)
+- [Creating Custom Apps](https://developers.make.com/custom-apps-documentation/basics/create-your-app)
+- [OAuth 2.0 Connections](https://developers.make.com/custom-apps-documentation/app-components/connections/oauth2)
+- [Module Types](https://developers.make.com/custom-apps-documentation/app-structure/modules)
+- [IML Functions](https://developers.make.com/custom-apps-documentation/iml-functions)
 - [Make Community Forum](https://community.make.com/c/custom-apps/52)
 - [Renderbase API Docs](https://docs.renderbase.dev/api-reference)
