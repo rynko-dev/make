@@ -6,7 +6,12 @@
       "redirect_uri": "{{oauth.redirectUri}}",
       "response_type": "code",
       "scope": "{{oauth.scope}}",
-      "state": "{{oauth.state}}"
+      "state": "{{oauth.state}}",
+      "code_challenge": "{{base64url(sha256(temp.code_verifier, 'base64'))}}",
+      "code_challenge_method": "S256"
+    },
+    "temp": {
+      "code_verifier": "{{uuid}}{{uuid}}"
     }
   },
   "token": {
@@ -17,7 +22,8 @@
       "code": "{{oauth.code}}",
       "client_id": "{{common.clientId}}",
       "client_secret": "{{common.clientSecret}}",
-      "redirect_uri": "{{oauth.redirectUri}}"
+      "redirect_uri": "{{oauth.redirectUri}}",
+      "code_verifier": "{{temp.code_verifier}}"
     },
     "response": {
       "data": {

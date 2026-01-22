@@ -229,7 +229,12 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
       "redirect_uri": "{{oauth.redirectUri}}",
       "response_type": "code",
       "scope": "{{oauth.scope}}",
-      "state": "{{oauth.state}}"
+      "state": "{{oauth.state}}",
+      "code_challenge": "{{base64url(sha256(temp.code_verifier, 'base64'))}}",
+      "code_challenge_method": "S256"
+    },
+    "temp": {
+      "code_verifier": "{{uuid}}{{uuid}}"
     }
   },
   "token": {
@@ -240,7 +245,8 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
       "code": "{{oauth.code}}",
       "client_id": "{{common.clientId}}",
       "client_secret": "{{common.clientSecret}}",
-      "redirect_uri": "{{oauth.redirectUri}}"
+      "redirect_uri": "{{oauth.redirectUri}}",
+      "code_verifier": "{{temp.code_verifier}}"
     },
     "response": {
       "data": {
@@ -293,7 +299,9 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
 }
 ```
 
-> **Note:** Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
+> **Notes:**
+> - Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
+> - PKCE (Proof Key for Code Exchange) is required by Renderbase. The `temp.code_verifier` is generated during authorization and sent during token exchange.
 
 ### Step 3: Configure Common Data Tab
 
