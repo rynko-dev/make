@@ -1,16 +1,5 @@
 [
   {
-    "name": "teamId",
-    "label": "Team",
-    "type": "select",
-    "required": true,
-    "options": {
-      "store": "rpc://listTeams"
-    },
-    "altersDynamicFields": true,
-    "help": "Select a team from your Renderbase account"
-  },
-  {
     "name": "workspaceId",
     "label": "Workspace",
     "type": "select",
