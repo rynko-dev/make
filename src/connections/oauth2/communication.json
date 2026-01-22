@@ -18,6 +18,9 @@
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
     "type": "urlencoded",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
     "body": {
       "grant_type": "authorization_code",
       "code": "{{temp.code}}",
@@ -37,6 +40,9 @@
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
     "type": "urlencoded",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
     "body": {
       "grant_type": "refresh_token",
       "refresh_token": "{{connection.refreshToken}}",
