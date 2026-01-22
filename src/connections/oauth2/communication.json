@@ -1,9 +1,4 @@
 {
-  "error": {
-    "type": "InvalidAccessTokenError",
-    "condition": "{{body.error}} === 'expired_token' || {{body.code}} === 'ERR_AUTH_001' || {{statusCode}} === 401",
-    "message": "{{body.message}}"
-  },
   "authorize": {
     "url": "https://app.renderbase.dev/oauth/authorize",
     "qs": {
@@ -42,6 +37,7 @@
     }
   },
   "refresh": {
+    "condition": "{{data.expires < addMinutes(now, 5)}}",
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
     "type": "urlencoded",
