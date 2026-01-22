@@ -45,7 +45,7 @@
     }
   },
   "info": {
-    "url": "https://api.renderbase.dev/api/v1/me",
+    "url": "https://api.renderbase.dev/api/auth/me",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
