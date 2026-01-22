@@ -343,32 +343,14 @@ Click the **Scope** tab and paste the contents of [`src/connections/oauth2/scope
 Click the **Scope List** tab and paste the contents of [`src/connections/oauth2/scope-list.json`](./src/connections/oauth2/scope-list.json) to provide descriptions for each scope:
 
 ```json
-[
-  {
-    "name": "documents:generate",
-    "label": "Generate PDF and Excel documents from templates"
-  },
-  {
-    "name": "documents:read",
-    "label": "View document job status and download generated documents"
-  },
-  {
-    "name": "templates:read",
-    "label": "List and view template details"
-  },
-  {
-    "name": "webhooks:read",
-    "label": "List webhook subscriptions"
-  },
-  {
-    "name": "webhooks:write",
-    "label": "Create and delete webhook subscriptions"
-  },
-  {
-    "name": "profile:read",
-    "label": "Read user profile information"
-  }
-]
+{
+  "documents:generate": "Generate PDF and Excel documents from templates",
+  "documents:read": "View document job status and download generated documents",
+  "templates:read": "List and view template details",
+  "webhooks:read": "List webhook subscriptions",
+  "webhooks:write": "Create and delete webhook subscriptions",
+  "profile:read": "Read user profile information"
+}
 ```
 
 ### Step 6: Save Connection
