@@ -5,8 +5,7 @@
       "label": "Triggers",
       "modules": [
         "watchDocumentCompleted",
-        "watchDocumentFailed",
-        "watchBatchCompleted"
+        "watchDocumentFailed"
       ]
     },
     {
@@ -16,7 +15,6 @@
         "generateDocument",
         "generatePdf",
         "generateExcel",
-        "generateBatch",
         "getDocument"
       ]
     }
