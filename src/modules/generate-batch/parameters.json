@@ -23,7 +23,22 @@
                 "options": {
                   "store": "rpc://listTemplates",
                   "nested": [
-                    "rpc://getTemplateVariables"
+                    {
+                      "name": "documents",
+                      "label": "Documents",
+                      "type": "array",
+                      "required": true,
+                      "spec": [
+                        "rpc://getTemplateVariables",
+                        {
+                          "name": "fileName",
+                          "label": "File Name",
+                          "type": "text",
+                          "help": "Optional custom file name for this document"
+                        }
+                      ],
+                      "help": "List of documents to generate. Each document has its own variables and optional file name."
+                    }
                   ]
                 },
                 "help": "Select a template from the selected workspace"
@@ -52,22 +67,6 @@
       }
     ],
     "help": "Choose the output format for all documents in this batch"
-  },
-  {
-    "name": "documents",
-    "label": "Documents",
-    "type": "array",
-    "required": true,
-    "spec": [
-      "rpc://getTemplateVariables",
-      {
-        "name": "fileName",
-        "label": "File Name",
-        "type": "text",
-        "help": "Optional custom file name for this document"
-      }
-    ],
-    "help": "List of documents to generate. Each document has its own variables and optional file name."
   },
   {
     "name": "waitForCompletion",
