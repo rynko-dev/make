@@ -45,7 +45,7 @@
     }
   },
   "info": {
-    "url": "https://api.renderbase.dev/api/v1/auth/verify",
+    "url": "https://api.renderbase.dev/api/v1/me",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
@@ -58,7 +58,7 @@
     }
   },
   "invalidate": {
-    "url": "https://api.renderbase.dev/api/v1/auth/revoke",
+    "url": "https://api.renderbase.dev/api/oauth/revoke",
     "method": "POST",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
