@@ -1,9 +1,9 @@
 [
   {
-    "name": "id",
+    "name": "templateId",
     "label": "Template ID",
     "type": "text",
-    "required": true,
-    "help": "The template ID (automatically passed from parent select)"
+    "required": false,
+    "help": "The template ID (accessed from module parameters)"
   }
 ]
