@@ -4,30 +4,32 @@
     "label": "Team",
     "type": "select",
     "required": true,
-    "options": "rpc://listTeams",
+    "options": {
+      "store": "rpc://listTeams",
+      "nested": [
+        {
+          "name": "workspaceId",
+          "label": "Workspace",
+          "type": "select",
+          "required": true,
+          "options": {
+            "store": "rpc://listWorkspaces",
+            "nested": [
+              {
+                "name": "templateId",
+                "label": "PDF Template",
+                "type": "select",
+                "required": true,
+                "options": "rpc://listPdfTemplates",
+                "help": "Select a PDF template from the selected workspace"
+              }
+            ]
+          },
+          "help": "Select a workspace within the selected team"
+        }
+      ]
+    },
     "help": "Select a team from your Renderbase account"
-  },
-  {
-    "name": "workspaceId",
-    "label": "Workspace",
-    "type": "select",
-    "required": true,
-    "options": {
-      "store": "rpc://listWorkspaces",
-      "label": "Select a workspace..."
-    },
-    "help": "Select a workspace within the selected team"
-  },
-  {
-    "name": "templateId",
-    "label": "PDF Template",
-    "type": "select",
-    "required": true,
-    "options": {
-      "store": "rpc://listPdfTemplates",
-      "label": "Select a template..."
-    },
-    "help": "Select a PDF template from the selected workspace"
   },
   {
     "name": "variables",
