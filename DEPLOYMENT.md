@@ -340,7 +340,36 @@ Click the **Scope** tab and paste the contents of [`src/connections/oauth2/scope
 
 ### Step 5: Configure Scope List Tab (Optional)
 
-Click the **Scope List** tab and paste the contents of [`src/connections/oauth2/scope-list.json`](./src/connections/oauth2/scope-list.json) to provide descriptions for each scope.
+Click the **Scope List** tab and paste the contents of [`src/connections/oauth2/scope-list.json`](./src/connections/oauth2/scope-list.json) to provide descriptions for each scope:
+
+```json
+[
+  {
+    "name": "documents:generate",
+    "label": "Generate PDF and Excel documents from templates"
+  },
+  {
+    "name": "documents:read",
+    "label": "View document job status and download generated documents"
+  },
+  {
+    "name": "templates:read",
+    "label": "List and view template details"
+  },
+  {
+    "name": "webhooks:read",
+    "label": "List webhook subscriptions"
+  },
+  {
+    "name": "webhooks:write",
+    "label": "Create and delete webhook subscriptions"
+  },
+  {
+    "name": "profile:read",
+    "label": "Read user profile information"
+  }
+]
+```
 
 ### Step 6: Save Connection
 
