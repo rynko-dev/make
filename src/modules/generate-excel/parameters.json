@@ -21,17 +21,7 @@
                 "type": "select",
                 "required": true,
                 "options": {
-                  "store": "rpc://listExcelTemplates",
-                  "nested": [
-                    {
-                      "name": "variables",
-                      "label": "Template Variables",
-                      "type": "collection",
-                      "required": false,
-                      "spec": "rpc://getTemplateVariables?templateId={{parameters.templateId}}",
-                      "help": "Variables defined in your template. Fields are loaded dynamically based on the selected template."
-                    }
-                  ]
+                  "store": "rpc://listExcelTemplates"
                 },
                 "help": "Select an Excel template from the selected workspace"
               }
@@ -42,6 +32,14 @@
       ]
     },
     "help": "Select a team from your Renderbase account"
+  },
+  {
+    "name": "variables",
+    "label": "Template Variables",
+    "type": "collection",
+    "required": false,
+    "spec": "rpc://getTemplateVariables",
+    "help": "Variables defined in your template. Fields are loaded dynamically based on the selected template."
   },
   {
     "name": "fileName",
