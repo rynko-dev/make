@@ -1,15 +1,41 @@
 [
   {
+    "name": "teamId",
+    "label": "Team",
+    "type": "select",
+    "required": true,
+    "options": {
+      "store": "rpc://listTeams",
+      "label": "{{item.label}}",
+      "value": "{{item.value}}"
+    },
+    "help": "Select a team from your Renderbase account"
+  },
+  {
+    "name": "workspaceId",
+    "label": "Workspace",
+    "type": "select",
+    "required": true,
+    "options": {
+      "store": "rpc://listWorkspaces?teamId={{parameters.teamId}}",
+      "label": "{{item.label}}",
+      "value": "{{item.value}}",
+      "nested": "teamId"
+    },
+    "help": "Select a workspace within the selected team"
+  },
+  {
     "name": "templateId",
     "label": "Template",
     "type": "select",
     "required": true,
     "options": {
-      "store": "rpc://listTemplates",
-      "label": "{{item.name}}",
-      "value": "{{item.id}}"
+      "store": "rpc://listTemplates?workspaceId={{parameters.workspaceId}}",
+      "label": "{{item.label}}",
+      "value": "{{item.value}}",
+      "nested": "workspaceId"
     },
-    "help": "Select a template from your Renderbase account"
+    "help": "Select a template from the selected workspace"
   },
   {
     "name": "format",

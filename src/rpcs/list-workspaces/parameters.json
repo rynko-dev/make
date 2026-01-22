@@ -1,0 +1,9 @@
+[
+  {
+    "name": "teamId",
+    "label": "Team",
+    "type": "text",
+    "required": false,
+    "help": "Filter workspaces by team ID"
+  }
+]

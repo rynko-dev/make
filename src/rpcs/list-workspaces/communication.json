@@ -1,19 +1,18 @@
 {
-  "url": "https://api.renderbase.dev/api/v1/integration-api/templates",
+  "url": "https://api.renderbase.dev/api/v1/integration-api/workspaces",
   "method": "GET",
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",
     "Content-Type": "application/json"
   },
   "qs": {
-    "workspaceId": "{{ifempty(parameters.workspaceId, '')}}",
     "teamId": "{{ifempty(parameters.teamId, '')}}"
   },
   "response": {
     "iterate": "{{body}}",
     "output": {
-      "value": "{{item.shortId}}",
-      "label": "{{item.name}} ({{item.workspaceName}})"
+      "value": "{{item.id}}",
+      "label": "{{item.name}} ({{item.teamName}})"
     }
   }
 }

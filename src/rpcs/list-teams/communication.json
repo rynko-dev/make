@@ -1,0 +1,15 @@
+{
+  "url": "https://api.renderbase.dev/api/v1/integration-api/teams",
+  "method": "GET",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "response": {
+    "iterate": "{{body}}",
+    "output": {
+      "value": "{{item.id}}",
+      "label": "{{item.name}}{{if(item.isPersonal, ' (Personal)', '')}}"
+    }
+  }
+}

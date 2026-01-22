@@ -1,0 +1,5 @@
+{
+  "name": "listTeams",
+  "label": "List Teams",
+  "description": "Fetches teams for dynamic dropdowns"
+}

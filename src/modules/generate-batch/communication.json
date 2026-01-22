@@ -1,5 +1,5 @@
 {
-  "url": "/documents/generate/batch",
+  "url": "https://api.renderbase.dev/api/v1/documents/generate/batch",
   "method": "POST",
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",
@@ -9,9 +9,16 @@
     "templateId": "{{parameters.templateId}}",
     "format": "{{parameters.format}}",
     "documents": "{{parameters.documents}}",
-    "waitForCompletion": "{{ifempty(parameters.waitForCompletion, false)}}"
+    "teamId": "{{parameters.teamId}}",
+    "workspaceId": "{{parameters.workspaceId}}"
   },
   "response": {
-    "output": "{{body.data}}"
+    "output": {
+      "batchId": "{{body.batchId}}",
+      "status": "{{body.status}}",
+      "totalJobs": "{{body.totalJobs}}",
+      "statusUrl": "{{body.statusUrl}}",
+      "estimatedWaitSeconds": "{{body.estimatedWaitSeconds}}"
+    }
   }
 }

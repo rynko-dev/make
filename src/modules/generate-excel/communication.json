@@ -1,5 +1,5 @@
 {
-  "url": "/documents/generate",
+  "url": "https://api.renderbase.dev/api/v1/documents/generate",
   "method": "POST",
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",
@@ -9,10 +9,16 @@
     "templateId": "{{parameters.templateId}}",
     "format": "excel",
     "variables": "{{parameters.variables}}",
-    "fileName": "{{parameters.fileName}}",
-    "waitForCompletion": "{{ifempty(parameters.waitForCompletion, true)}}"
+    "filename": "{{parameters.fileName}}",
+    "teamId": "{{parameters.teamId}}",
+    "workspaceId": "{{parameters.workspaceId}}"
   },
   "response": {
-    "output": "{{body.data}}"
+    "output": {
+      "jobId": "{{body.jobId}}",
+      "status": "{{body.status}}",
+      "statusUrl": "{{body.statusUrl}}",
+      "estimatedWaitSeconds": "{{body.estimatedWaitSeconds}}"
+    }
   }
 }
