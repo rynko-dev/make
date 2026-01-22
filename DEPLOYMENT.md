@@ -58,7 +58,8 @@ Before starting in Make.com, you need to create an OAuth client in Renderbase. T
 
    > **Note**: Grant types are automatically set to `Authorization Code` + `Refresh Token` by the backend, which is the correct configuration for Make.com.
 
-5. Click **Create Client**
+5. **Disable PKCE requirement** for this client (Make.com doesn't support the `base64url` function needed for PKCE)
+6. Click **Create Client**
 6. **Copy and securely store** the generated `Client ID` and `Client Secret`
 
 > ⚠️ **Important**: The Client Secret is only shown once. Store it securely!
@@ -229,12 +230,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
       "redirect_uri": "{{oauth.redirectUri}}",
       "response_type": "code",
       "scope": "{{oauth.scope}}",
-      "state": "{{oauth.state}}",
-      "code_challenge": "{{base64url(sha256(temp.code_verifier, 'base64'))}}",
-      "code_challenge_method": "S256"
-    },
-    "temp": {
-      "code_verifier": "{{uuid}}{{uuid}}"
+      "state": "{{oauth.state}}"
     }
   },
   "token": {
@@ -245,8 +241,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
       "code": "{{oauth.code}}",
       "client_id": "{{common.clientId}}",
       "client_secret": "{{common.clientSecret}}",
-      "redirect_uri": "{{oauth.redirectUri}}",
-      "code_verifier": "{{temp.code_verifier}}"
+      "redirect_uri": "{{oauth.redirectUri}}"
     },
     "response": {
       "data": {
@@ -299,9 +294,9 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
 }
 ```
 
-> **Notes:**
-> - Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
-> - PKCE (Proof Key for Code Exchange) is required by Renderbase. The `temp.code_verifier` is generated during authorization and sent during token exchange.
+> **Note:** Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
+
+> **Important:** The Make.com OAuth client in Renderbase must have PKCE **disabled**. Make.com's IML doesn't support the `base64url` function required for PKCE. Since this is a confidential client (has client_secret), PKCE is not strictly required for security.
 
 ### Step 3: Configure Common Data Tab
 
