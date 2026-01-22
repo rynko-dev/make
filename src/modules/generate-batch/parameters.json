@@ -4,64 +4,75 @@
     "label": "Team",
     "type": "select",
     "required": true,
-    "options": "rpc://listTeams",
+    "options": {
+      "store": "rpc://listTeams",
+      "nested": [
+        {
+          "name": "workspaceId",
+          "label": "Workspace",
+          "type": "select",
+          "required": true,
+          "options": {
+            "store": "rpc://listWorkspaces",
+            "nested": [
+              {
+                "name": "templateId",
+                "label": "Template",
+                "type": "select",
+                "required": true,
+                "options": {
+                  "store": "rpc://listTemplates",
+                  "nested": [
+                    {
+                      "name": "format",
+                      "label": "Output Format",
+                      "type": "select",
+                      "required": true,
+                      "options": [
+                        {
+                          "label": "PDF",
+                          "value": "pdf"
+                        },
+                        {
+                          "label": "Excel",
+                          "value": "excel"
+                        }
+                      ],
+                      "help": "Choose the output format for all documents in this batch"
+                    },
+                    {
+                      "name": "documents",
+                      "label": "Documents",
+                      "type": "array",
+                      "required": true,
+                      "spec": [
+                        {
+                          "name": "variables",
+                          "label": "Template Variables",
+                          "type": "collection",
+                          "spec": "rpc://getTemplateVariables",
+                          "help": "Variables for this document (fields loaded from template)"
+                        },
+                        {
+                          "name": "fileName",
+                          "label": "File Name",
+                          "type": "text",
+                          "help": "Optional custom file name for this document"
+                        }
+                      ],
+                      "help": "List of documents to generate. Each document has its own variables and optional file name."
+                    }
+                  ]
+                },
+                "help": "Select a template from the selected workspace"
+              }
+            ]
+          },
+          "help": "Select a workspace within the selected team"
+        }
+      ]
+    },
     "help": "Select a team from your Renderbase account"
-  },
-  {
-    "name": "workspaceId",
-    "label": "Workspace",
-    "type": "select",
-    "required": true,
-    "options": "rpc://listWorkspaces",
-    "help": "Select a workspace within the selected team"
-  },
-  {
-    "name": "templateId",
-    "label": "Template",
-    "type": "select",
-    "required": true,
-    "options": "rpc://listTemplates",
-    "altersDynamicFields": true,
-    "help": "Select a template from the selected workspace"
-  },
-  {
-    "name": "format",
-    "label": "Output Format",
-    "type": "select",
-    "required": true,
-    "options": [
-      {
-        "label": "PDF",
-        "value": "pdf"
-      },
-      {
-        "label": "Excel",
-        "value": "excel"
-      }
-    ],
-    "help": "Choose the output format for all documents in this batch"
-  },
-  {
-    "name": "documents",
-    "label": "Documents",
-    "type": "array",
-    "required": true,
-    "spec": [
-      {
-        "name": "variables",
-        "label": "Template Variables",
-        "type": "collection",
-        "spec": "rpc://getTemplateVariables",
-        "help": "Variables for this document (fields loaded from template)"
-      },
-      {
-        "name": "fileName",
-        "label": "File Name",
-        "type": "text",
-        "help": "Optional custom file name for this document"
-      }
-    ],
-    "help": "List of documents to generate. Each document has its own variables and optional file name."
   },
   {
     "name": "waitForCompletion",

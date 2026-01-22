@@ -4,33 +4,44 @@
     "label": "Team",
     "type": "select",
     "required": true,
-    "options": "rpc://listTeams",
+    "options": {
+      "store": "rpc://listTeams",
+      "nested": [
+        {
+          "name": "workspaceId",
+          "label": "Workspace",
+          "type": "select",
+          "required": true,
+          "options": {
+            "store": "rpc://listWorkspaces",
+            "nested": [
+              {
+                "name": "templateId",
+                "label": "Excel Template",
+                "type": "select",
+                "required": true,
+                "options": {
+                  "store": "rpc://listExcelTemplates",
+                  "nested": [
+                    {
+                      "name": "variables",
+                      "label": "Template Variables",
+                      "type": "collection",
+                      "required": false,
+                      "spec": "rpc://getTemplateVariables",
+                      "help": "Variables defined in your template. Fields are loaded dynamically based on the selected template."
+                    }
+                  ]
+                },
+                "help": "Select an Excel template from the selected workspace"
+              }
+            ]
+          },
+          "help": "Select a workspace within the selected team"
+        }
+      ]
+    },
     "help": "Select a team from your Renderbase account"
-  },
-  {
-    "name": "workspaceId",
-    "label": "Workspace",
-    "type": "select",
-    "required": true,
-    "options": "rpc://listWorkspaces",
-    "help": "Select a workspace within the selected team"
-  },
-  {
-    "name": "templateId",
-    "label": "Excel Template",
-    "type": "select",
-    "required": true,
-    "options": "rpc://listExcelTemplates",
-    "altersDynamicFields": true,
-    "help": "Select an Excel template from the selected workspace"
-  },
-  {
-    "name": "variables",
-    "label": "Template Variables",
-    "type": "collection",
-    "required": false,
-    "spec": "rpc://getTemplateVariables",
-    "help": "Variables defined in your template. Fields are loaded dynamically based on the selected template."
   },
   {
     "name": "fileName",
