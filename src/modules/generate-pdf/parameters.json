@@ -21,9 +21,11 @@
                 "type": "select",
                 "required": true,
                 "options": {
-                  "store": "rpc://listPdfTemplates"
+                  "store": "rpc://listPdfTemplates",
+                  "nested": [
+                    "rpc://getTemplateVariables"
+                  ]
                 },
-                "altersDynamicFields": true,
                 "help": "Select a PDF template from the selected workspace"
               }
             ]
@@ -34,7 +36,6 @@
     },
     "help": "Select a team from your Renderbase account"
   },
-  "rpc://getTemplateVariables",
   {
     "name": "fileName",
     "label": "File Name",

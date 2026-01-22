@@ -21,9 +21,11 @@
                 "type": "select",
                 "required": true,
                 "options": {
-                  "store": "rpc://listTemplates"
+                  "store": "rpc://listTemplates",
+                  "nested": [
+                    "rpc://getTemplateVariables"
+                  ]
                 },
-                "altersDynamicFields": true,
                 "help": "Select a template from the selected workspace"
               }
             ]
