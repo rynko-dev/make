@@ -1,5 +1,5 @@
 {
-  "url": "https://api.renderbase.dev/api/v1/integration-api/templates/{{ifempty(parameters.templateId, parameters.value)}}/variables",
+  "url": "https://api.renderbase.dev/api/v1/integration-api/templates/{{ifempty(parameters.templateId, ifempty(parameters.id, parameters.value))}}/variables",
   "method": "GET",
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",
