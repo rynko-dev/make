@@ -1,3 +1,7 @@
-{
-  "events": ["document.completed"]
-}
+[
+  {
+    "name": "events",
+    "type": "array",
+    "value": ["document.completed"]
+  }
+]

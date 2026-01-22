@@ -1,3 +1,7 @@
-{
-  "events": ["document.failed"]
-}
+[
+  {
+    "name": "events",
+    "type": "array",
+    "value": ["document.failed"]
+  }
+]

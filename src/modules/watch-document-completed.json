@@ -6,9 +6,13 @@
   "connection": "oauth2",
   "webhook": "documentEvents",
   "parameters": [],
-  "static": {
-    "events": ["document.completed"]
-  },
+  "static": [
+    {
+      "name": "events",
+      "type": "array",
+      "value": ["document.completed"]
+    }
+  ],
   "output": [
     { "name": "id", "label": "Event ID", "type": "text" },
     { "name": "type", "label": "Event Type", "type": "text" },
