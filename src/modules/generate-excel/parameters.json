@@ -23,6 +23,7 @@
                 "options": {
                   "store": "rpc://listExcelTemplates"
                 },
+                "altersDynamicFields": true,
                 "help": "Select an Excel template from the selected workspace"
               }
             ]

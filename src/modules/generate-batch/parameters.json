@@ -23,6 +23,7 @@
                 "options": {
                   "store": "rpc://listTemplates"
                 },
+                "altersDynamicFields": true,
                 "help": "Select a template from the selected workspace"
               }
             ]
