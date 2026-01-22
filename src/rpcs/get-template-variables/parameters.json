@@ -1,9 +1,9 @@
 [
   {
-    "name": "templateId",
-    "label": "Template",
+    "name": "id",
+    "label": "Template ID",
     "type": "text",
-    "required": false,
-    "help": "The template ID to fetch variables for"
+    "required": true,
+    "help": "The template ID (automatically passed from parent select)"
   }
 ]
