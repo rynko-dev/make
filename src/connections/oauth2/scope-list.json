@@ -1,8 +1,0 @@
-{
-  "documents:generate": "Generate PDF and Excel documents from templates",
-  "documents:read": "View document job status and download generated documents",
-  "templates:read": "List and view template details",
-  "webhooks:read": "List webhook subscriptions",
-  "webhooks:write": "Create and delete webhook subscriptions",
-  "profile:read": "Read user profile information"
-}

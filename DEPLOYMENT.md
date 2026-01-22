@@ -308,7 +308,10 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
 }
 ```
 
-> **Note:** The `type: "urlencoded"` ensures the token request body is sent as `application/x-www-form-urlencoded` (OAuth 2.0 standard). The `expires` is placed inside `response.data` to enable automatic token refresh.
+> **Note:**
+> - The `type: "urlencoded"` ensures the token request body is sent as `application/x-www-form-urlencoded` (OAuth 2.0 standard)
+> - The `expires` is placed inside `response.data` to enable automatic token refresh
+> - OAuth scopes are hardcoded in the `authorize.qs.scope` field (Make.com's `{{oauth.scope}}` variable doesn't populate correctly)
 
 > **Note:** Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
 
@@ -329,37 +332,7 @@ Enter the actual Client ID and Client Secret you obtained from Renderbase in the
 
 > **Important:** Replace the placeholder values with your actual OAuth client credentials from Renderbase. These values are encrypted and stored securely by Make.com. All users of your integration will use these same credentials - individual users authenticate via OAuth, not by entering these values.
 
-### Step 4: Configure Scope Tab
-
-Click the **Scope** tab and paste the contents of [`src/connections/oauth2/scope.json`](./src/connections/oauth2/scope.json):
-
-```json
-[
-  "documents:generate",
-  "documents:read",
-  "templates:read",
-  "webhooks:read",
-  "webhooks:write",
-  "profile:read"
-]
-```
-
-### Step 5: Configure Scope List Tab (Optional)
-
-Click the **Scope List** tab and paste the contents of [`src/connections/oauth2/scope-list.json`](./src/connections/oauth2/scope-list.json) to provide descriptions for each scope:
-
-```json
-{
-  "documents:generate": "Generate PDF and Excel documents from templates",
-  "documents:read": "View document job status and download generated documents",
-  "templates:read": "List and view template details",
-  "webhooks:read": "List webhook subscriptions",
-  "webhooks:write": "Create and delete webhook subscriptions",
-  "profile:read": "Read user profile information"
-}
-```
-
-### Step 6: Save Connection
+### Step 4: Save Connection
 
 Click **Save** to store the connection configuration.
 
@@ -929,9 +902,7 @@ make-renderbase/
     ├── connections/
     │   └── oauth2/
     │       ├── communication.json   # OAuth flow (authorize, token, refresh, info)
-    │       ├── common.json          # Client ID/Secret fields
-    │       ├── scope.json           # Default scopes
-    │       └── scope-list.json      # Available scopes with descriptions
+    │       └── common.json          # Client ID/Secret values
     │
     ├── webhooks/
     │   └── document-events/
