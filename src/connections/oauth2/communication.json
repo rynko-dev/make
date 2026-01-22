@@ -12,6 +12,7 @@
   "token": {
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
+    "type": "urlencoded",
     "body": {
       "grant_type": "authorization_code",
       "code": "{{oauth.code}}",
@@ -22,14 +23,15 @@
     "response": {
       "data": {
         "accessToken": "{{body.access_token}}",
-        "refreshToken": "{{body.refresh_token}}"
-      },
-      "expires": "{{addSeconds(now, body.expires_in)}}"
+        "refreshToken": "{{body.refresh_token}}",
+        "expires": "{{addSeconds(now, body.expires_in)}}"
+      }
     }
   },
   "refresh": {
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
+    "type": "urlencoded",
     "body": {
       "grant_type": "refresh_token",
       "refresh_token": "{{connection.refreshToken}}",
@@ -39,13 +41,14 @@
     "response": {
       "data": {
         "accessToken": "{{body.access_token}}",
-        "refreshToken": "{{body.refresh_token}}"
-      },
-      "expires": "{{addSeconds(now, body.expires_in)}}"
+        "refreshToken": "{{body.refresh_token}}",
+        "expires": "{{addSeconds(now, body.expires_in)}}"
+      }
     }
   },
   "info": {
     "url": "https://api.renderbase.dev/api/oauth/userinfo",
+    "method": "GET",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
@@ -60,6 +63,7 @@
   "invalidate": {
     "url": "https://api.renderbase.dev/api/oauth/revoke",
     "method": "POST",
+    "type": "urlencoded",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },

@@ -246,6 +246,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
   "token": {
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
+    "type": "urlencoded",
     "body": {
       "grant_type": "authorization_code",
       "code": "{{oauth.code}}",
@@ -256,14 +257,15 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     "response": {
       "data": {
         "accessToken": "{{body.access_token}}",
-        "refreshToken": "{{body.refresh_token}}"
-      },
-      "expires": "{{addSeconds(now, body.expires_in)}}"
+        "refreshToken": "{{body.refresh_token}}",
+        "expires": "{{addSeconds(now, body.expires_in)}}"
+      }
     }
   },
   "refresh": {
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
+    "type": "urlencoded",
     "body": {
       "grant_type": "refresh_token",
       "refresh_token": "{{connection.refreshToken}}",
@@ -273,13 +275,14 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     "response": {
       "data": {
         "accessToken": "{{body.access_token}}",
-        "refreshToken": "{{body.refresh_token}}"
-      },
-      "expires": "{{addSeconds(now, body.expires_in)}}"
+        "refreshToken": "{{body.refresh_token}}",
+        "expires": "{{addSeconds(now, body.expires_in)}}"
+      }
     }
   },
   "info": {
     "url": "https://api.renderbase.dev/api/oauth/userinfo",
+    "method": "GET",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
@@ -294,6 +297,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
   "invalidate": {
     "url": "https://api.renderbase.dev/api/oauth/revoke",
     "method": "POST",
+    "type": "urlencoded",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
@@ -303,6 +307,8 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
   }
 }
 ```
+
+> **Note:** The `type: "urlencoded"` ensures the token request body is sent as `application/x-www-form-urlencoded` (OAuth 2.0 standard). The `expires` is placed inside `response.data` to enable automatic token refresh.
 
 > **Note:** Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
 
