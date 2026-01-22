@@ -10,7 +10,7 @@
     {
       "name": "events",
       "type": "array",
-      "value": ["document.failed"]
+      "default": ["document.failed"]
     }
   ],
   "output": [
