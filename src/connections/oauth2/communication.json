@@ -45,15 +45,15 @@
     }
   },
   "info": {
-    "url": "https://api.renderbase.dev/api/auth/me",
+    "url": "https://api.renderbase.dev/api/oauth/userinfo",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
     "response": {
-      "uid": "{{body.data.id}}",
+      "uid": "{{body.id}}",
       "metadata": {
         "type": "email",
-        "value": "{{body.data.email}}"
+        "value": "{{body.email}}"
       }
     }
   },
