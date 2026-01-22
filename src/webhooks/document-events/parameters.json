@@ -1,13 +1,25 @@
 [
   {
-    "name": "workspaceId",
-    "label": "Workspace",
+    "name": "teamId",
+    "label": "Team",
     "type": "select",
     "required": false,
     "options": {
-      "store": "rpc://listWorkspaces"
+      "store": "rpc://listTeams",
+      "nested": [
+        {
+          "name": "workspaceId",
+          "label": "Workspace",
+          "type": "select",
+          "required": false,
+          "options": {
+            "store": "rpc://listWorkspaces"
+          },
+          "help": "Optional: Scope webhook to a specific workspace within the selected team"
+        }
+      ]
     },
-    "help": "Optional: Scope webhook to a specific workspace. Leave empty to receive events from all workspaces."
+    "help": "Optional: Select a team to scope webhook events. Leave empty for all teams."
   },
   {
     "name": "events",
