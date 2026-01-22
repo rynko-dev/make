@@ -7,17 +7,20 @@
       "response_type": "code",
       "scope": "documents:generate documents:read templates:read webhooks:read webhooks:write profile:read",
       "state": "{{oauth.state}}"
+    },
+    "response": {
+      "temp": {
+        "code": "{{query.code}}"
+      }
     }
   },
   "token": {
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
-    "headers": {
-      "Content-Type": "application/json"
-    },
+    "type": "urlencoded",
     "body": {
       "grant_type": "authorization_code",
-      "code": "{{oauth.code}}",
+      "code": "{{temp.code}}",
       "client_id": "{{common.clientId}}",
       "client_secret": "{{common.clientSecret}}",
       "redirect_uri": "{{oauth.redirectUri}}"
@@ -33,9 +36,7 @@
   "refresh": {
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
-    "headers": {
-      "Content-Type": "application/json"
-    },
+    "type": "urlencoded",
     "body": {
       "grant_type": "refresh_token",
       "refresh_token": "{{connection.refreshToken}}",
