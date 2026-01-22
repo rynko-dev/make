@@ -8,7 +8,7 @@
   "body": {
     "templateId": "{{parameters.templateId}}",
     "format": "pdf",
-    "variables": "{{parameters.variables}}",
+    "variables": "{{omit(parameters, 'teamId', 'workspaceId', 'templateId', 'fileName', 'waitForCompletion')}}",
     "filename": "{{parameters.fileName}}",
     "teamId": "{{parameters.teamId}}",
     "workspaceId": "{{parameters.workspaceId}}"

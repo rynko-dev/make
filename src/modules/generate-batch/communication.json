@@ -8,7 +8,7 @@
   "body": {
     "templateId": "{{parameters.templateId}}",
     "format": "{{parameters.format}}",
-    "documents": "{{parameters.documents}}",
+    "documents": "{{map(parameters.documents, 'item', create('variables', omit(item, 'fileName'), 'fileName', item.fileName))}}",
     "teamId": "{{parameters.teamId}}",
     "workspaceId": "{{parameters.workspaceId}}"
   },
