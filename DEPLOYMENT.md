@@ -179,6 +179,7 @@ Copy and paste the contents of [`base.json`](./base.json):
   "baseUrl": "https://api.renderbase.dev/api/v1",
   "authorizationUrl": "https://app.renderbase.dev/oauth/authorize",
   "tokenUrl": "https://api.renderbase.dev/api/oauth/token",
+  "userInfoUrl": "https://api.renderbase.dev/api/oauth/userinfo",
   "headers": {
     "Content-Type": "application/json",
     "User-Agent": "Renderbase-Make/1.0"
@@ -194,6 +195,12 @@ Copy and paste the contents of [`base.json`](./base.json):
   }
 }
 ```
+
+**Important URLs:**
+- `baseUrl`: Base URL for API v1 endpoints (used by modules)
+- `authorizationUrl`: OAuth authorization page (webapp, not API)
+- `tokenUrl`: OAuth token exchange endpoint
+- `userInfoUrl`: OAuth user info endpoint (used to verify connection)
 
 ### Step 3: Save Base
 

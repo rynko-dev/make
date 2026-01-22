@@ -49,14 +49,14 @@
       }
     },
     "info": {
-      "url": "{{base.baseUrl}}/auth/verify",
+      "url": "{{base.userInfoUrl}}",
       "headers": {
         "Authorization": "Bearer {{connection.accessToken}}"
       },
       "response": {
         "data": {
-          "uid": "{{body.data.id}}",
-          "label": "{{body.data.email}}"
+          "uid": "{{body.id}}",
+          "label": "{{body.email}}"
         }
       }
     }

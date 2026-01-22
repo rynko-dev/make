@@ -2,6 +2,7 @@
   "baseUrl": "https://api.renderbase.dev/api/v1",
   "authorizationUrl": "https://app.renderbase.dev/oauth/authorize",
   "tokenUrl": "https://api.renderbase.dev/api/oauth/token",
+  "userInfoUrl": "https://api.renderbase.dev/api/oauth/userinfo",
   "headers": {
     "Content-Type": "application/json",
     "User-Agent": "Renderbase-Make/1.0"
