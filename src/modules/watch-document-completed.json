@@ -10,7 +10,7 @@
     {
       "name": "events",
       "type": "array",
-      "default": ["document.completed"]
+      "default": ["document.generated"]
     }
   ],
   "output": [
@@ -29,7 +29,7 @@
   "samples": [
     {
       "id": "evt_sample_123",
-      "type": "document.completed",
+      "type": "document.generated",
       "timestamp": "2025-01-15T10:30:00Z",
       "data": {
         "jobId": "job_abc123",

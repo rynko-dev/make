@@ -1,6 +1,6 @@
 {
   "id": "evt_sample_123abc",
-  "type": "document.completed",
+  "type": "document.generated",
   "timestamp": "2026-01-15T10:30:00Z",
   "data": {
     "jobId": "job_abc123xyz",

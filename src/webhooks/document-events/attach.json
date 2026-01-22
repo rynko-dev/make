@@ -8,7 +8,7 @@
   "body": {
     "url": "{{webhook.url}}",
     "events": "{{parameters.events}}",
-    "name": "Make.com - {{parameters.events}}"
+    "description": "Make.com - {{parameters.events}}"
   },
   "response": {
     "data": {
