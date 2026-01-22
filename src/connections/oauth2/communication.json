@@ -1,6 +1,6 @@
 {
   "authorize": {
-    "url": "{{base.authorizationUrl}}",
+    "url": "https://app.renderbase.dev/oauth/authorize",
     "qs": {
       "client_id": "{{common.clientId}}",
       "redirect_uri": "{{oauth.redirectUri}}",
@@ -10,7 +10,7 @@
     }
   },
   "token": {
-    "url": "{{base.tokenUrl}}",
+    "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
     "body": {
       "grant_type": "authorization_code",
@@ -28,7 +28,7 @@
     }
   },
   "refresh": {
-    "url": "{{base.tokenUrl}}",
+    "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
     "body": {
       "grant_type": "refresh_token",
@@ -45,7 +45,7 @@
     }
   },
   "info": {
-    "url": "{{base.baseUrl}}/auth/verify",
+    "url": "https://api.renderbase.dev/api/v1/auth/verify",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
@@ -58,7 +58,7 @@
     }
   },
   "invalidate": {
-    "url": "{{base.baseUrl}}/auth/revoke",
+    "url": "https://api.renderbase.dev/api/v1/auth/revoke",
     "method": "POST",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"

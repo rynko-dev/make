@@ -223,7 +223,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
 ```json
 {
   "authorize": {
-    "url": "{{base.authorizationUrl}}",
+    "url": "https://app.renderbase.dev/oauth/authorize",
     "qs": {
       "client_id": "{{common.clientId}}",
       "redirect_uri": "{{oauth.redirectUri}}",
@@ -233,7 +233,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "token": {
-    "url": "{{base.tokenUrl}}",
+    "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
     "body": {
       "grant_type": "authorization_code",
@@ -251,7 +251,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "refresh": {
-    "url": "{{base.tokenUrl}}",
+    "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
     "body": {
       "grant_type": "refresh_token",
@@ -268,7 +268,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "info": {
-    "url": "{{base.baseUrl}}/auth/verify",
+    "url": "https://api.renderbase.dev/api/v1/auth/verify",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
@@ -281,7 +281,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "invalidate": {
-    "url": "{{base.baseUrl}}/auth/revoke",
+    "url": "https://api.renderbase.dev/api/v1/auth/revoke",
     "method": "POST",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
@@ -292,6 +292,8 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
   }
 }
 ```
+
+> **Note:** Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
 
 ### Step 3: Configure Common Data Tab
 
