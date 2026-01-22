@@ -279,20 +279,20 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "info": {
-    "url": "https://api.renderbase.dev/api/v1/auth/verify",
+    "url": "https://api.renderbase.dev/api/oauth/userinfo",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
     },
     "response": {
-      "uid": "{{body.data.id}}",
+      "uid": "{{body.id}}",
       "metadata": {
         "type": "email",
-        "value": "{{body.data.email}}"
+        "value": "{{body.email}}"
       }
     }
   },
   "invalidate": {
-    "url": "https://api.renderbase.dev/api/v1/auth/revoke",
+    "url": "https://api.renderbase.dev/api/oauth/revoke",
     "method": "POST",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
