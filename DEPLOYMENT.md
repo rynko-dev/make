@@ -239,8 +239,13 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
       "client_id": "{{common.clientId}}",
       "redirect_uri": "{{oauth.redirectUri}}",
       "response_type": "code",
-      "scope": "{{oauth.scope}}",
+      "scope": "documents:generate documents:read templates:read webhooks:read webhooks:write profile:read",
       "state": "{{oauth.state}}"
+    },
+    "response": {
+      "temp": {
+        "code": "{{query.code}}"
+      }
     }
   },
   "token": {
@@ -249,7 +254,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     "type": "urlencoded",
     "body": {
       "grant_type": "authorization_code",
-      "code": "{{oauth.code}}",
+      "code": "{{temp.code}}",
       "client_id": "{{common.clientId}}",
       "client_secret": "{{common.clientSecret}}",
       "redirect_uri": "{{oauth.redirectUri}}"
@@ -308,10 +313,12 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
 }
 ```
 
-> **Note:**
-> - The `type: "urlencoded"` ensures the token request body is sent as `application/x-www-form-urlencoded` (OAuth 2.0 standard)
-> - The `expires` is placed inside `response.data` to enable automatic token refresh
-> - OAuth scopes are hardcoded in the `authorize.qs.scope` field (Make.com's `{{oauth.scope}}` variable doesn't populate correctly)
+> **Key Configuration Notes:**
+> - The `authorize.response.temp` stores the authorization code from the callback
+> - The `token` directive uses `{{temp.code}}` to access the stored code
+> - The `type: "urlencoded"` sends the body as `application/x-www-form-urlencoded` (OAuth 2.0 standard)
+> - OAuth scopes are hardcoded in `authorize.qs.scope` (Make.com's `{{oauth.scope}}` variable doesn't populate correctly)
+> - Reference: [Make.com OAuth 2.0 Documentation](https://developers.make.com/custom-apps-documentation/app-structure/connections/oauth2)
 
 > **Note:** Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
 
