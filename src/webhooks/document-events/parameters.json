@@ -1,5 +1,15 @@
 [
   {
+    "name": "workspaceId",
+    "label": "Workspace",
+    "type": "select",
+    "required": false,
+    "options": {
+      "store": "rpc://listWorkspaces"
+    },
+    "help": "Optional: Scope webhook to a specific workspace. Leave empty to receive events from all workspaces."
+  },
+  {
     "name": "events",
     "label": "Event Types",
     "type": "select",
@@ -7,16 +17,16 @@
     "multiple": true,
     "options": [
       {
-        "label": "Document Completed",
-        "value": "document.completed"
+        "label": "Document Generated",
+        "value": "document.generated"
       },
       {
         "label": "Document Failed",
         "value": "document.failed"
       },
       {
-        "label": "Batch Completed",
-        "value": "batch.completed"
+        "label": "Document Downloaded",
+        "value": "document.downloaded"
       }
     ],
     "help": "Select which events should trigger this webhook"
