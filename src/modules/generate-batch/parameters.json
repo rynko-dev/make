@@ -50,7 +50,7 @@
                           "name": "variables",
                           "label": "Template Variables",
                           "type": "collection",
-                          "spec": "rpc://getTemplateVariables",
+                          "spec": "rpc://getTemplateVariables?templateId={{parameters.templateId}}",
                           "help": "Variables for this document (fields loaded from template)"
                         },
                         {

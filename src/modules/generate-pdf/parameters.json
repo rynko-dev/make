@@ -28,7 +28,7 @@
                       "label": "Template Variables",
                       "type": "collection",
                       "required": false,
-                      "spec": "rpc://getTemplateVariables",
+                      "spec": "rpc://getTemplateVariables?templateId={{parameters.templateId}}",
                       "help": "Variables defined in your template. Fields are loaded dynamically based on the selected template."
                     }
                   ]
