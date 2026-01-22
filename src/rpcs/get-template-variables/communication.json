@@ -1,6 +1,5 @@
 {
-  "condition": "{{if(parameters.templateId, true, false)}}",
-  "url": "https://api.renderbase.dev/api/v1/integration-api/templates/{{parameters.templateId}}/variables",
+  "url": "https://api.renderbase.dev/api/v1/integration-api/templates/{{if(parameters.templateId, parameters.templateId + '/variables', 'variables')}}",
   "method": "GET",
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",
