@@ -12,6 +12,9 @@
   "token": {
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
     "body": {
       "grant_type": "authorization_code",
       "code": "{{oauth.code}}",
@@ -30,6 +33,9 @@
   "refresh": {
     "url": "https://api.renderbase.dev/api/oauth/token",
     "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
     "body": {
       "grant_type": "refresh_token",
       "refresh_token": "{{connection.refreshToken}}",
