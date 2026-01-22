@@ -3,7 +3,7 @@
     "name": "templateId",
     "label": "Template",
     "type": "text",
-    "required": true,
+    "required": false,
     "help": "The template ID to fetch variables for"
   }
 ]
