@@ -5,7 +5,7 @@
       "client_id": "{{common.clientId}}",
       "redirect_uri": "{{oauth.redirectUri}}",
       "response_type": "code",
-      "scope": "{{oauth.scope}}",
+      "scope": "documents:generate documents:read templates:read webhooks:read webhooks:write profile:read",
       "state": "{{oauth.state}}"
     }
   },
