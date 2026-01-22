@@ -30,9 +30,12 @@ This guide covers the complete process for deploying the Renderbase integration 
 The Renderbase backend must have:
 
 - OAuth 2.0 module deployed (`/api/oauth/*` endpoints)
+- Integration API module deployed (`/api/v1/integration-api/*` endpoints)
 - Webhook subscriptions module deployed (`/api/v1/webhook-subscriptions/*`)
 - SSL certificate (HTTPS required)
 - CORS configured for Make.com domains
+
+> **Note:** The Integration API module provides user-scoped access to teams, workspaces, and templates for OAuth-authenticated users. This enables the cascading Team → Workspace → Template selection in Make.com modules.
 
 ### Create OAuth Client in Renderbase
 
@@ -366,6 +369,8 @@ Modules are the building blocks users add to their scenarios. Each module has **
   "body": {
     "templateId": "{{parameters.templateId}}",
     "format": "pdf",
+    "teamId": "{{parameters.teamId}}",
+    "workspaceId": "{{parameters.workspaceId}}",
     "variables": "{{parameters.variables}}",
     "fileName": "{{parameters.fileName}}",
     "waitForCompletion": "{{ifempty(parameters.waitForCompletion, true)}}"
@@ -376,7 +381,48 @@ Modules are the building blocks users add to their scenarios. Each module has **
 }
 ```
 
-**Mappable Parameters Tab** - paste [`src/modules/generate-pdf/parameters.json`](./src/modules/generate-pdf/parameters.json)
+**Mappable Parameters Tab** - paste [`src/modules/generate-pdf/parameters.json`](./src/modules/generate-pdf/parameters.json):
+
+This defines the cascading Team → Workspace → Template selection:
+```json
+[
+  {
+    "name": "teamId",
+    "label": "Team",
+    "type": "select",
+    "required": true,
+    "options": {
+      "store": "rpc://listTeams"
+    },
+    "help": "Select a team from your Renderbase account"
+  },
+  {
+    "name": "workspaceId",
+    "label": "Workspace",
+    "type": "select",
+    "required": true,
+    "options": {
+      "store": "rpc://listWorkspaces?teamId={{parameters.teamId}}",
+      "nested": "teamId"
+    },
+    "help": "Select a workspace within the selected team"
+  },
+  {
+    "name": "templateId",
+    "label": "PDF Template",
+    "type": "select",
+    "required": true,
+    "options": {
+      "store": "rpc://listPdfTemplates?workspaceId={{parameters.workspaceId}}",
+      "nested": "workspaceId"
+    },
+    "help": "Select a PDF template from the selected workspace"
+  },
+  // ... variables, fileName, waitForCompletion fields
+]
+```
+
+> **Note:** The `nested` property creates the cascading behavior - when Team changes, Workspace reloads; when Workspace changes, Template reloads.
 
 **Interface Tab** - paste [`src/modules/generate-pdf/interface.json`](./src/modules/generate-pdf/interface.json)
 
@@ -448,30 +494,27 @@ Repeat using files from [`src/modules/watch-batch-completed/`](./src/modules/wat
 
 ## Adding Remote Procedures (RPCs)
 
-RPCs provide dynamic data for module dropdowns, like template lists.
+RPCs provide dynamic data for module dropdowns. The integration uses a **cascading selection pattern**: Team → Workspace → Template.
 
-### RPC: List Templates
+### RPC: List Teams
 
 1. Click **Remote Procedures** in the left sidebar
 2. Click **+ Create a new RPC**
-3. Set **Name** to `listTemplates`
-4. Set **Label** to `List Templates`
+3. Set **Name** to `listTeams`
+4. Set **Label** to `List Teams`
 5. Select **Connection**: `oauth2`
 
-**Communication Tab** - paste [`src/rpcs/list-templates/communication.json`](./src/rpcs/list-templates/communication.json):
+**Communication Tab** - paste [`src/rpcs/list-teams/communication.json`](./src/rpcs/list-teams/communication.json):
 ```json
 {
-  "url": "/templates",
+  "url": "/integration-api/teams",
   "method": "GET",
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",
     "Content-Type": "application/json"
   },
-  "qs": {
-    "limit": 100
-  },
   "response": {
-    "iterate": "{{body.data}}",
+    "iterate": "{{body}}",
     "output": {
       "value": "{{item.id}}",
       "label": "{{item.name}}"
@@ -480,17 +523,106 @@ RPCs provide dynamic data for module dropdowns, like template lists.
 }
 ```
 
+### RPC: List Workspaces
+
+1. Click **+ Create a new RPC**
+2. Set **Name** to `listWorkspaces`
+3. Set **Label** to `List Workspaces`
+4. Select **Connection**: `oauth2`
+
+**Communication Tab** - paste [`src/rpcs/list-workspaces/communication.json`](./src/rpcs/list-workspaces/communication.json):
+```json
+{
+  "url": "/integration-api/workspaces",
+  "method": "GET",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "qs": {
+    "teamId": "{{parameters.teamId}}"
+  },
+  "response": {
+    "iterate": "{{body}}",
+    "output": {
+      "value": "{{item.id}}",
+      "label": "{{item.name}}"
+    }
+  }
+}
+```
+
+**Parameters Tab** - paste [`src/rpcs/list-workspaces/parameters.json`](./src/rpcs/list-workspaces/parameters.json):
+```json
+[
+  {
+    "name": "teamId",
+    "type": "text",
+    "label": "Team ID",
+    "required": true
+  }
+]
+```
+
+### RPC: List Templates
+
+1. Click **+ Create a new RPC**
+2. Set **Name** to `listTemplates`
+3. Set **Label** to `List Templates`
+4. Select **Connection**: `oauth2`
+
+**Communication Tab** - paste [`src/rpcs/list-templates/communication.json`](./src/rpcs/list-templates/communication.json):
+```json
+{
+  "url": "/integration-api/templates",
+  "method": "GET",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "qs": {
+    "workspaceId": "{{ifempty(parameters.workspaceId, '')}}",
+    "teamId": "{{ifempty(parameters.teamId, '')}}"
+  },
+  "response": {
+    "iterate": "{{body}}",
+    "output": {
+      "value": "{{item.shortId}}",
+      "label": "{{item.name}} ({{item.workspaceName}})"
+    }
+  }
+}
+```
+
+**Parameters Tab** - paste [`src/rpcs/list-templates/parameters.json`](./src/rpcs/list-templates/parameters.json):
+```json
+[
+  {
+    "name": "workspaceId",
+    "type": "text",
+    "label": "Workspace ID",
+    "required": false
+  },
+  {
+    "name": "teamId",
+    "type": "text",
+    "label": "Team ID",
+    "required": false
+  }
+]
+```
+
 ### RPC: List PDF Templates
 
-Repeat using [`src/rpcs/list-pdf-templates/communication.json`](./src/rpcs/list-pdf-templates/communication.json):
+Repeat using files from [`src/rpcs/list-pdf-templates/`](./src/rpcs/list-pdf-templates/):
 - **Name**: `listPdfTemplates`
-- Adds `"format": "pdf"` to query string
+- Uses same endpoint, filters results client-side by `outputFormats` containing "pdf"
 
 ### RPC: List Excel Templates
 
-Repeat using [`src/rpcs/list-excel-templates/communication.json`](./src/rpcs/list-excel-templates/communication.json):
+Repeat using files from [`src/rpcs/list-excel-templates/`](./src/rpcs/list-excel-templates/):
 - **Name**: `listExcelTemplates`
-- Adds `"format": "excel"` to query string
+- Uses same endpoint, filters results client-side by `outputFormats` containing "excel"
 
 ---
 
@@ -717,14 +849,32 @@ For significant changes:
 
 ### Module Issues
 
+**Team Dropdown Empty:**
+- Verify the user has access to at least one team
+- Check `listTeams` RPC configuration
+- Test the `/api/v1/integration-api/teams` endpoint directly
+
+**Workspace Dropdown Empty:**
+- Verify a team is selected first (cascading dependency)
+- Check the user has access to workspaces in the selected team
+- Verify `listWorkspaces` RPC includes `teamId` parameter
+
 **Template Dropdown Empty:**
+- Verify a workspace is selected first (cascading dependency)
 - Verify `templates:read` scope is granted
-- Check RPC Communication configuration
-- Test the API endpoint directly
+- Check that templates exist in the selected workspace
+- For PDF/Excel dropdowns, verify templates have the correct `outputFormats`
+- Test the `/api/v1/integration-api/templates?workspaceId=...` endpoint directly
+
+**Cascading Selection Not Working:**
+- Verify the `nested` property is set correctly in parameters.json
+- Check that RPC URLs include the parameter reference (e.g., `?teamId={{parameters.teamId}}`)
+- Clear the module cache and try again
 
 **Document Generation Fails:**
 - Check `documents:generate` scope is granted
-- Verify template ID is valid
+- Verify template ID is valid (should be `shortId` format)
+- Verify `teamId` and `workspaceId` are included in the request
 - Check variable data format matches template requirements
 
 ### Webhook Issues
@@ -795,14 +945,29 @@ make-renderbase/
     │       └── ... (same structure)
     │
     └── rpcs/
+        ├── list-teams.json          # RPC definition for teams
+        ├── list-teams/
+        │   └── communication.json   # API call for user's teams
+        │
+        ├── list-workspaces.json     # RPC definition for workspaces
+        ├── list-workspaces/
+        │   ├── communication.json   # API call filtered by teamId
+        │   └── parameters.json      # teamId parameter
+        │
+        ├── list-templates.json      # RPC definition for templates
         ├── list-templates/
-        │   └── communication.json   # API call for all templates
+        │   ├── communication.json   # API call filtered by workspaceId
+        │   └── parameters.json      # workspaceId, teamId parameters
         │
+        ├── list-pdf-templates.json  # RPC definition for PDF templates
         ├── list-pdf-templates/
-        │   └── communication.json   # API call for PDF templates
+        │   ├── communication.json   # Filters by outputFormats containing "pdf"
+        │   └── parameters.json
         │
+        ├── list-excel-templates.json # RPC definition for Excel templates
         └── list-excel-templates/
-            └── communication.json   # API call for Excel templates
+            ├── communication.json   # Filters by outputFormats containing "excel"
+            └── parameters.json
 ```
 
 ---
