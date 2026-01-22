@@ -1,0 +1,19 @@
+{
+  "url": "https://api.renderbase.dev/api/templates/{{parameters.templateId}}/zapier-fields",
+  "method": "GET",
+  "headers": {
+    "Authorization": "Bearer {{connection.accessToken}}",
+    "Content-Type": "application/json"
+  },
+  "response": {
+    "iterate": "{{body.fields}}",
+    "output": {
+      "name": "{{item.key}}",
+      "label": "{{item.label}}",
+      "type": "{{switch(item.type, 'string', 'text', 'text', 'text', 'integer', 'integer', 'number', 'number', 'boolean', 'boolean', 'datetime', 'date', 'text')}}",
+      "required": "{{item.required}}",
+      "help": "{{item.helpText}}",
+      "default": "{{item.default}}"
+    }
+  }
+}

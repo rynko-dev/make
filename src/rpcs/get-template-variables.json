@@ -1,0 +1,5 @@
+{
+  "name": "getTemplateVariables",
+  "label": "Get Template Variables",
+  "description": "Fetches the variable schema for a template to generate dynamic input fields"
+}

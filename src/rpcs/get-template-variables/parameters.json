@@ -1,0 +1,9 @@
+[
+  {
+    "name": "templateId",
+    "label": "Template",
+    "type": "text",
+    "required": true,
+    "help": "The template ID to fetch variables for"
+  }
+]

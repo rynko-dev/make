@@ -6,36 +6,30 @@
     "required": true,
     "options": {
       "store": "rpc://listTeams",
-      "label": "{{item.label}}",
-      "value": "{{item.value}}"
+      "nested": [
+        {
+          "name": "workspaceId",
+          "label": "Workspace",
+          "type": "select",
+          "required": true,
+          "options": {
+            "store": "rpc://listWorkspaces",
+            "nested": [
+              {
+                "name": "templateId",
+                "label": "Template",
+                "type": "select",
+                "required": true,
+                "options": "rpc://listTemplates",
+                "help": "Select a template from the selected workspace"
+              }
+            ]
+          },
+          "help": "Select a workspace within the selected team"
+        }
+      ]
     },
     "help": "Select a team from your Renderbase account"
-  },
-  {
-    "name": "workspaceId",
-    "label": "Workspace",
-    "type": "select",
-    "required": true,
-    "options": {
-      "store": "rpc://listWorkspaces?teamId={{parameters.teamId}}",
-      "label": "{{item.label}}",
-      "value": "{{item.value}}",
-      "nested": "teamId"
-    },
-    "help": "Select a workspace within the selected team"
-  },
-  {
-    "name": "templateId",
-    "label": "Template",
-    "type": "select",
-    "required": true,
-    "options": {
-      "store": "rpc://listTemplates?workspaceId={{parameters.workspaceId}}",
-      "label": "{{item.label}}",
-      "value": "{{item.value}}",
-      "nested": "workspaceId"
-    },
-    "help": "Select a template from the selected workspace"
   },
   {
     "name": "format",
@@ -64,23 +58,14 @@
         "name": "variables",
         "label": "Template Variables",
         "type": "collection",
-        "spec": [
-          {
-            "name": "key",
-            "label": "Variable Name",
-            "type": "text"
-          },
-          {
-            "name": "value",
-            "label": "Variable Value",
-            "type": "any"
-          }
-        ]
+        "spec": "rpc://getTemplateVariables",
+        "help": "Variables for this document (fields loaded from template)"
       },
       {
         "name": "fileName",
         "label": "File Name",
-        "type": "text"
+        "type": "text",
+        "help": "Optional custom file name for this document"
       }
     ],
     "help": "List of documents to generate. Each document has its own variables and optional file name."

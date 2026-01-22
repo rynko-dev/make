@@ -36,19 +36,8 @@
     "label": "Template Variables",
     "type": "collection",
     "required": false,
-    "spec": [
-      {
-        "name": "key",
-        "label": "Variable Name",
-        "type": "text"
-      },
-      {
-        "name": "value",
-        "label": "Variable Value",
-        "type": "any"
-      }
-    ],
-    "help": "Key-value pairs for template variables. Use the variable names defined in your template."
+    "spec": "rpc://getTemplateVariables",
+    "help": "Variables defined in your template. Fields are loaded dynamically based on the selected template."
   },
   {
     "name": "fileName",
