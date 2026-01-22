@@ -9,7 +9,7 @@
     "url": "{{webhook.url}}",
     "events": "{{parameters.events}}",
     "description": "Make.com - {{parameters.events}}",
-    "{{...}}": "{{ifempty(parameters.workspaceId, omit, {\"workspaceId\": parameters.workspaceId})}}"
+    "workspaceId": "{{parameters.workspaceId}}"
   },
   "response": {
     "data": {

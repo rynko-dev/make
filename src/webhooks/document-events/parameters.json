@@ -3,7 +3,7 @@
     "name": "teamId",
     "label": "Team",
     "type": "select",
-    "required": false,
+    "required": true,
     "options": {
       "store": "rpc://listTeams",
       "nested": [
@@ -11,15 +11,15 @@
           "name": "workspaceId",
           "label": "Workspace",
           "type": "select",
-          "required": false,
+          "required": true,
           "options": {
             "store": "rpc://listWorkspaces"
           },
-          "help": "Optional: Scope webhook to a specific workspace within the selected team"
+          "help": "Select a workspace to receive webhook events from"
         }
       ]
     },
-    "help": "Optional: Select a team to scope webhook events. Leave empty for all teams."
+    "help": "Select a team from your Renderbase account"
   },
   {
     "name": "events",
