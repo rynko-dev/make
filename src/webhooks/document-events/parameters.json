@@ -7,6 +7,7 @@
     "options": {
       "store": "rpc://listTeams"
     },
+    "altersDynamicFields": true,
     "help": "Select a team from your Renderbase account"
   },
   {
