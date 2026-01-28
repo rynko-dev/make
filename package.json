@@ -1,18 +1,18 @@
 {
-  "name": "make-renderbase",
+  "name": "make-rynko",
   "version": "1.0.0",
-  "description": "Renderbase integration for Make.com - Generate PDF and Excel documents from templates",
+  "description": "Rynko integration for Make.com - Generate PDF and Excel documents from templates",
   "main": "app.json",
   "keywords": [
     "make",
     "integromat",
-    "renderbase",
+    "rynko",
     "pdf",
     "excel",
     "documents",
     "templates",
     "automation"
   ],
-  "author": "Renderbase",
+  "author": "Rynko",
   "license": "MIT"
 }

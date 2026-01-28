@@ -1,5 +1,5 @@
 {
-  "url": "https://api.renderbase.dev/api/v1/integration-api/teams",
+  "url": "https://api.rynko.dev/api/v1/integration-api/teams",
   "method": "GET",
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",

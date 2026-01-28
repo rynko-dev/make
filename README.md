@@ -1,6 +1,6 @@
-# Renderbase Make.com Integration
+# Rynko Make.com Integration
 
-Official Make.com (formerly Integromat) integration for Renderbase - the document generation platform with unified template design for PDF and Excel documents.
+Official Make.com (formerly Integromat) integration for Rynko - the document generation platform with unified template design for PDF and Excel documents.
 
 ## Features
 
@@ -21,7 +21,7 @@ Official Make.com (formerly Integromat) integration for Renderbase - the documen
 ## Project Structure
 
 ```
-make-renderbase/
+make-rynko/
 ├── app.json                    # App metadata
 ├── base.json                   # Base URL and headers configuration
 ├── package.json                # Package information
@@ -84,7 +84,7 @@ When generating documents, you can optionally specify a `workspaceId` to generat
 ### Testing
 
 1. Create a test scenario
-2. Add Renderbase modules
+2. Add Rynko modules
 3. Configure with test connection
 4. Run scenarios to verify
 
@@ -96,9 +96,9 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 
 - [Deployment Guide](./DEPLOYMENT.md)
 - [Make.com Developer Docs](https://www.make.com/en/api-documentation)
-- [Renderbase API Documentation](https://docs.renderbase.dev/api)
+- [Rynko API Documentation](https://docs.rynko.dev/api)
 
 ## Support
 
-- Email: support@renderbase.dev
-- Documentation: https://docs.renderbase.dev
+- Email: support@rynko.dev
+- Documentation: https://docs.rynko.dev

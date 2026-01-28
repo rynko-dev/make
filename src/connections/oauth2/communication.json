@@ -1,6 +1,6 @@
 {
   "authorize": {
-    "url": "https://app.renderbase.dev/oauth/authorize",
+    "url": "https://app.rynko.dev/oauth/authorize",
     "qs": {
       "client_id": "{{common.clientId}}",
       "redirect_uri": "{{oauth.redirectUri}}",
@@ -15,7 +15,7 @@
     }
   },
   "token": {
-    "url": "https://api.renderbase.dev/api/oauth/token",
+    "url": "https://api.rynko.dev/api/oauth/token",
     "method": "POST",
     "type": "urlencoded",
     "headers": {
@@ -38,7 +38,7 @@
   },
   "refresh": {
     "condition": "{{data.expires < addMinutes(now, 5)}}",
-    "url": "https://api.renderbase.dev/api/oauth/token",
+    "url": "https://api.rynko.dev/api/oauth/token",
     "method": "POST",
     "type": "urlencoded",
     "headers": {
@@ -59,7 +59,7 @@
     }
   },
   "info": {
-    "url": "https://api.renderbase.dev/api/oauth/userinfo",
+    "url": "https://api.rynko.dev/api/oauth/userinfo",
     "method": "GET",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
@@ -73,7 +73,7 @@
     }
   },
   "invalidate": {
-    "url": "https://api.renderbase.dev/api/oauth/revoke",
+    "url": "https://api.rynko.dev/api/oauth/revoke",
     "method": "POST",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"

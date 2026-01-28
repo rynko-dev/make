@@ -1,7 +1,7 @@
 {
   "name": "watchDocumentCompleted",
   "label": "Watch Document Completed",
-  "description": "Triggers when a document is successfully generated through Renderbase",
+  "description": "Triggers when a document is successfully generated through Rynko",
   "type": "trigger",
   "connection": "oauth2",
   "webhook": "documentEvents",
@@ -37,7 +37,7 @@
         "templateName": "Invoice Template",
         "format": "pdf",
         "status": "completed",
-        "downloadUrl": "https://api.renderbase.dev/v1/documents/job_abc123/download",
+        "downloadUrl": "https://api.rynko.dev/v1/documents/job_abc123/download",
         "fileSize": 125000,
         "completedAt": "2025-01-15T10:30:00Z"
       }

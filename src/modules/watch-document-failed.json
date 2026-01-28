@@ -1,7 +1,7 @@
 {
   "name": "watchDocumentFailed",
   "label": "Watch Document Failed",
-  "description": "Triggers when a document generation fails through Renderbase",
+  "description": "Triggers when a document generation fails through Rynko",
   "type": "trigger",
   "connection": "oauth2",
   "webhook": "documentEvents",

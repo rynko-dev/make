@@ -2,16 +2,16 @@
 
 This guide helps you quickly create the test scenarios required for Make.com app review.
 
-**API Documentation Link:** `https://docs.renderbase.dev/api-reference`
+**API Documentation Link:** `https://docs.rynko.dev/api-reference`
 
 ---
 
 ## Prerequisites
 
 Before creating scenarios, ensure you have:
-1. A Renderbase account with at least one published template
-2. Connected your Renderbase account to Make.com via OAuth
-3. Note your template ID (found in Renderbase dashboard → Templates → click template → copy ID from URL)
+1. A Rynko account with at least one published template
+2. Connected your Rynko account to Make.com via OAuth
+3. Note your template ID (found in Rynko dashboard → Templates → click template → copy ID from URL)
 
 ---
 
@@ -22,9 +22,9 @@ Before creating scenarios, ensure you have:
 ### Steps:
 1. Click **Create a new scenario**
 2. Click **+** → Search "Schedule" → Select **Schedule: Run once**
-3. Click **+** → Search "Renderbase" → Select **Generate PDF**
+3. Click **+** → Search "Rynko" → Select **Generate PDF**
 4. Configure the module:
-   - **Connection:** Select your Renderbase connection
+   - **Connection:** Select your Rynko connection
    - **Template ID:** Select a template from the dropdown (or paste ID)
    - **Variables:** Add any required variables for your template
    ```json
@@ -49,9 +49,9 @@ Before creating scenarios, ensure you have:
 ### Steps:
 1. Click **Create a new scenario**
 2. Click **+** → Search "Schedule" → Select **Schedule: Run once**
-3. Click **+** → Search "Renderbase" → Select **Generate Excel**
+3. Click **+** → Search "Rynko" → Select **Generate Excel**
 4. Configure the module:
-   - **Connection:** Select your Renderbase connection
+   - **Connection:** Select your Rynko connection
    - **Template ID:** Select an Excel-compatible template
    - **Variables:** Add required variables
    ```json
@@ -79,11 +79,11 @@ Before creating scenarios, ensure you have:
 ### Steps:
 1. Click **Create a new scenario**
 2. Click **+** → Search "Schedule" → Select **Schedule: Run once**
-3. Click **+** → Search "Renderbase" → Select **Generate PDF**
+3. Click **+** → Search "Rynko" → Select **Generate PDF**
 4. Configure with valid template and variables (same as Scenario 1)
-5. Click **+** → Search "Renderbase" → Select **Get Document**
+5. Click **+** → Search "Rynko" → Select **Get Document**
 6. Configure the module:
-   - **Connection:** Select your Renderbase connection
+   - **Connection:** Select your Rynko connection
    - **Job ID:** Map from previous module: `{{1.jobId}}`
 7. Click **OK**
 8. Click **Run once** to execute
@@ -99,15 +99,15 @@ Before creating scenarios, ensure you have:
 
 ### Steps:
 1. Click **Create a new scenario**
-2. Click **+** → Search "Renderbase" → Select **Watch Document Completed**
+2. Click **+** → Search "Rynko" → Select **Watch Document Completed**
 3. Configure the module:
-   - **Connection:** Select your Renderbase connection
+   - **Connection:** Select your Rynko connection
    - **Webhook:** Click **Add** to create a new webhook
    - Name it: "Document Completed - Review Test"
 4. Click **OK**
 5. The module will show "Waiting for data..." - this is expected
 6. **In a new browser tab**, trigger a document generation:
-   - Go to Renderbase dashboard
+   - Go to Rynko dashboard
    - Generate a test document, OR
    - Run one of your other Make.com scenarios (Scenario 1 or 2)
 7. Return to Make.com - the trigger should receive the event
@@ -128,9 +128,9 @@ Before creating scenarios, ensure you have:
 
 ### Steps:
 1. Click **Create a new scenario**
-2. Click **+** → Search "Renderbase" → Select **Watch Document Failed**
+2. Click **+** → Search "Rynko" → Select **Watch Document Failed**
 3. Configure the module:
-   - **Connection:** Select your Renderbase connection
+   - **Connection:** Select your Rynko connection
    - **Webhook:** Click **Add** to create a new webhook
    - Name it: "Document Failed - Review Test"
 4. Click **OK**
@@ -157,9 +157,9 @@ Before creating scenarios, ensure you have:
 ### Steps:
 1. Click **Create a new scenario**
 2. Click **+** → Search "Schedule" → Select **Schedule: Run once**
-3. Click **+** → Search "Renderbase" → Select **Generate PDF**
+3. Click **+** → Search "Rynko" → Select **Generate PDF**
 4. Configure the module with **intentionally invalid data**:
-   - **Connection:** Select your Renderbase connection
+   - **Connection:** Select your Rynko connection
    - **Template ID:** Enter an invalid ID: `invalid-template-12345`
    - **Variables:** Leave empty or add dummy data
 5. Click **OK**
@@ -184,7 +184,7 @@ After creating all scenarios, collect these URLs:
 
 | Field | URL |
 |-------|-----|
-| API Documentation | `https://docs.renderbase.dev/api-reference` |
+| API Documentation | `https://docs.rynko.dev/api-reference` |
 | Generate PDF | `https://eu1.make.com/XXXXX/scenarios/XXXXX/edit` |
 | Generate Excel | `https://eu1.make.com/XXXXX/scenarios/XXXXX/edit` |
 | Get Document | `https://eu1.make.com/XXXXX/scenarios/XXXXX/edit` |
@@ -208,22 +208,22 @@ After creating all scenarios, collect these URLs:
 ## Troubleshooting
 
 ### "Template not found" when selecting template
-- Ensure you're connected with the correct Renderbase account
+- Ensure you're connected with the correct Rynko account
 - Check that you have at least one published template
 
 ### Webhook not receiving events
-- Verify the webhook URL is registered in Renderbase
+- Verify the webhook URL is registered in Rynko
 - Check that document generation is completing (not stuck in queue)
-- Try generating a document directly from the Renderbase dashboard
+- Try generating a document directly from the Rynko dashboard
 
 ### OAuth connection fails
 - Clear browser cookies and try reconnecting
-- Verify the OAuth client is properly configured in Renderbase
+- Verify the OAuth client is properly configured in Rynko
 
 ---
 
 ## Support
 
-- **Renderbase Support:** support@renderbase.dev
-- **Documentation:** https://docs.renderbase.dev
-- **Make.com Integration Docs:** https://docs.renderbase.dev/integrations/no-code#make-integration
+- **Rynko Support:** support@rynko.dev
+- **Documentation:** https://docs.rynko.dev
+- **Make.com Integration Docs:** https://docs.rynko.dev/integrations/no-code#make-integration

@@ -1,6 +1,6 @@
-# Renderbase Make.com Integration - Deployment Guide
+# Rynko Make.com Integration - Deployment Guide
 
-This guide covers the complete process for deploying the Renderbase integration to Make.com (formerly Integromat).
+This guide covers the complete process for deploying the Rynko integration to Make.com (formerly Integromat).
 
 ## Table of Contents
 
@@ -22,12 +22,12 @@ This guide covers the complete process for deploying the Renderbase integration 
 ### Required Access
 
 - Make.com account (any paid plan with Custom Apps access)
-- Renderbase admin access for OAuth client creation
-- Renderbase backend with OAuth module deployed
+- Rynko admin access for OAuth client creation
+- Rynko backend with OAuth module deployed
 
 ### Backend Requirements
 
-The Renderbase backend must have:
+The Rynko backend must have:
 
 - OAuth 2.0 module deployed (`/api/oauth/*` endpoints)
 - Integration API module deployed (`/api/v1/integration-api/*` endpoints)
@@ -37,13 +37,13 @@ The Renderbase backend must have:
 
 > **Note:** The Integration API module provides user-scoped access to teams, workspaces, and templates for OAuth-authenticated users. This enables the cascading Team → Workspace → Template selection in Make.com modules.
 
-### Create OAuth Client in Renderbase
+### Create OAuth Client in Rynko
 
-Before starting in Make.com, you need to create an OAuth client in Renderbase. This is a **one-time setup** that provides the credentials used by all Make.com users.
+Before starting in Make.com, you need to create an OAuth client in Rynko. This is a **one-time setup** that provides the credentials used by all Make.com users.
 
-#### Option 1: Via Renderbase Admin Dashboard (Recommended)
+#### Option 1: Via Rynko Admin Dashboard (Recommended)
 
-1. Log in to the Renderbase Admin Dashboard at `https://admin.renderbase.dev`
+1. Log in to the Rynko Admin Dashboard at `https://admin.rynko.dev`
 2. Navigate to **OAuth Clients** in the sidebar (under "System" section)
 3. Click **Create OAuth Client**
 4. Fill in the details:
@@ -67,18 +67,18 @@ Before starting in Make.com, you need to create an OAuth client in Renderbase. T
 
 > ⚠️ **Important**: The Client Secret is only shown once. Store it securely!
 
-#### Option 2: Via Renderbase API
+#### Option 2: Via Rynko API
 
 If you prefer using the API or need to automate the setup:
 
 **Step 1: Get a JWT Token**
 
-Log in to Renderbase as a platform admin and use the JWT access token from your session. You can find this in your browser's developer tools under Application → Cookies → `access_token`.
+Log in to Rynko as a platform admin and use the JWT access token from your session. You can find this in your browser's developer tools under Application → Cookies → `access_token`.
 
 **Step 2: Create the OAuth Client**
 
 ```bash
-curl -X POST https://api.renderbase.dev/api/oauth/clients \
+curl -X POST https://api.rynko.dev/api/oauth/clients \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -126,7 +126,7 @@ These credentials will be entered in the Make.com Custom Apps interface:
 1. `clientId` → Goes in the **Common Data** tab
 2. `clientSecret` → Goes in the **Common Data** tab
 
-End users of your Make.com integration will **never see these credentials**. They simply click "Connect" and authenticate with their own Renderbase account via OAuth.
+End users of your Make.com integration will **never see these credentials**. They simply click "Connect" and authenticate with their own Rynko account via OAuth.
 
 ---
 
@@ -144,16 +144,16 @@ In the pop-up form, enter the following:
 
 | Field | Value |
 |-------|-------|
-| **Name** | `renderbase` (internal identifier, must be lowercase with hyphens only) |
-| **Label** | `Renderbase` (display name users will see) |
+| **Name** | `rynko` (internal identifier, must be lowercase with hyphens only) |
+| **Label** | `Rynko` (display name users will see) |
 | **Description** | Generate PDF and Excel documents from templates with dynamic data |
-| **Theme** | `#8B5CF6` (Renderbase violet) |
+| **Theme** | `#8B5CF6` (Rynko violet) |
 | **Language** | English |
 | **Audience** | Global |
 
 ### Step 3: Upload App Logo
 
-Upload the Renderbase logo (512x512px PNG recommended).
+Upload the Rynko logo (512x512px PNG recommended).
 
 ### Step 4: Save the App
 
@@ -176,13 +176,13 @@ Copy and paste the contents of [`base.json`](./base.json):
 
 ```json
 {
-  "baseUrl": "https://api.renderbase.dev/api/v1",
-  "authorizationUrl": "https://app.renderbase.dev/oauth/authorize",
-  "tokenUrl": "https://api.renderbase.dev/api/oauth/token",
-  "userInfoUrl": "https://api.renderbase.dev/api/oauth/userinfo",
+  "baseUrl": "https://api.rynko.dev/api/v1",
+  "authorizationUrl": "https://app.rynko.dev/oauth/authorize",
+  "tokenUrl": "https://api.rynko.dev/api/oauth/token",
+  "userInfoUrl": "https://api.rynko.dev/api/oauth/userinfo",
   "headers": {
     "Content-Type": "application/json",
-    "User-Agent": "Renderbase-Make/1.0"
+    "User-Agent": "Rynko-Make/1.0"
   },
   "log": {
     "sanitize": ["authorization", "access_token", "refresh_token"]
@@ -210,14 +210,14 @@ Click **Save** to store the base configuration.
 
 ## Setting Up the Connection
 
-Connections handle authentication between Make.com and Renderbase. The Make.com interface has **separate tabs** for each configuration section.
+Connections handle authentication between Make.com and Rynko. The Make.com interface has **separate tabs** for each configuration section.
 
 ### Step 1: Create New Connection
 
 1. Click **Connections** in the left sidebar
 2. Click **+ Create a new connection**
 3. Set **Name** to `oauth2`
-4. Set **Label** to `Renderbase OAuth`
+4. Set **Label** to `Rynko OAuth`
 5. Set **Type** to `OAuth 2.0`
 6. Select **OAuth 2.0 Type**: `Authorization Code + Refresh Token`
 
@@ -234,7 +234,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
 ```json
 {
   "authorize": {
-    "url": "https://app.renderbase.dev/oauth/authorize",
+    "url": "https://app.rynko.dev/oauth/authorize",
     "qs": {
       "client_id": "{{common.clientId}}",
       "redirect_uri": "{{oauth.redirectUri}}",
@@ -249,7 +249,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "token": {
-    "url": "https://api.renderbase.dev/api/oauth/token",
+    "url": "https://api.rynko.dev/api/oauth/token",
     "method": "POST",
     "type": "urlencoded",
     "body": {
@@ -268,7 +268,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "refresh": {
-    "url": "https://api.renderbase.dev/api/oauth/token",
+    "url": "https://api.rynko.dev/api/oauth/token",
     "method": "POST",
     "type": "urlencoded",
     "body": {
@@ -286,7 +286,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "info": {
-    "url": "https://api.renderbase.dev/api/oauth/userinfo",
+    "url": "https://api.rynko.dev/api/oauth/userinfo",
     "method": "GET",
     "headers": {
       "Authorization": "Bearer {{connection.accessToken}}"
@@ -300,7 +300,7 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
     }
   },
   "invalidate": {
-    "url": "https://api.renderbase.dev/api/oauth/revoke",
+    "url": "https://api.rynko.dev/api/oauth/revoke",
     "method": "POST",
     "type": "urlencoded",
     "headers": {
@@ -322,22 +322,22 @@ Click the **Communication** tab and paste the contents of [`src/connections/oaut
 
 > **Note:** Connection communication uses full URLs instead of `{{base.*}}` references because the base context is not available in connection configuration.
 
-> **Important:** The Make.com OAuth client in Renderbase must have PKCE **disabled**. Make.com's IML doesn't support the `base64url` function required for PKCE. Since this is a confidential client (has client_secret), PKCE is not strictly required for security.
+> **Important:** The Make.com OAuth client in Rynko must have PKCE **disabled**. Make.com's IML doesn't support the `base64url` function required for PKCE. Since this is a confidential client (has client_secret), PKCE is not strictly required for security.
 
 ### Step 3: Configure Common Data Tab
 
 Click the **Common Data** tab. This contains the OAuth client credentials that are **the same for all users** of your integration.
 
-Enter the actual Client ID and Client Secret you obtained from Renderbase in the Prerequisites step:
+Enter the actual Client ID and Client Secret you obtained from Rynko in the Prerequisites step:
 
 ```json
 {
-  "clientId": "YOUR_ACTUAL_RENDERBASE_CLIENT_ID",
-  "clientSecret": "YOUR_ACTUAL_RENDERBASE_CLIENT_SECRET"
+  "clientId": "YOUR_ACTUAL_RYNKO_CLIENT_ID",
+  "clientSecret": "YOUR_ACTUAL_RYNKO_CLIENT_SECRET"
 }
 ```
 
-> **Important:** Replace the placeholder values with your actual OAuth client credentials from Renderbase. These values are encrypted and stored securely by Make.com. All users of your integration will use these same credentials - individual users authenticate via OAuth, not by entering these values.
+> **Important:** Replace the placeholder values with your actual OAuth client credentials from Rynko. These values are encrypted and stored securely by Make.com. All users of your integration will use these same credentials - individual users authenticate via OAuth, not by entering these values.
 
 ### Step 4: Save Connection
 
@@ -398,7 +398,7 @@ This defines the cascading Team → Workspace → Template selection:
     "options": {
       "store": "rpc://listTeams"
     },
-    "help": "Select a team from your Renderbase account"
+    "help": "Select a team from your Rynko account"
   },
   {
     "name": "workspaceId",
@@ -632,7 +632,7 @@ Repeat using files from [`src/rpcs/list-excel-templates/`](./src/rpcs/list-excel
 
 ## Configuring Webhooks
 
-Webhooks enable instant triggers to receive real-time events from Renderbase.
+Webhooks enable instant triggers to receive real-time events from Rynko.
 
 ### Webhook: Document Events
 
@@ -675,7 +675,7 @@ This handles incoming webhook data and challenge verification:
 
 **Attach Tab** - paste [`src/webhooks/document-events/attach.json`](./src/webhooks/document-events/attach.json):
 
-This registers the webhook URL with Renderbase when a user enables a trigger:
+This registers the webhook URL with Rynko when a user enables a trigger:
 ```json
 {
   "url": "/webhook-subscriptions",
@@ -741,11 +741,11 @@ This defines the event selection UI shown to users:
 1. Open a new browser tab and go to Make.com
 2. Go to **Scenarios** and create a new scenario
 3. Click the empty module placeholder
-4. Search for your app name ("Renderbase")
+4. Search for your app name ("Rynko")
 5. Select any module (e.g., "Generate PDF")
 6. Click **Create a connection**
-7. You'll be redirected to Renderbase to authorize the connection
-8. Log in to your Renderbase account and approve the permissions
+7. You'll be redirected to Rynko to authorize the connection
+8. Log in to your Rynko account and approve the permissions
 9. Verify the connection shows your email in Make.com
 
 ### Step 2: Test Action Modules
@@ -760,7 +760,7 @@ This defines the event selection UI shown to users:
 
 1. Create a new scenario with "Watch Document Completed" as the trigger
 2. Configure the trigger and turn on the scenario
-3. Generate a document from Renderbase (via API or dashboard)
+3. Generate a document from Rynko (via API or dashboard)
 4. Verify the scenario is triggered and receives the event data
 
 ### Step 4: Debug with Make DevTool
@@ -831,7 +831,7 @@ For significant changes:
 
 - Check Make.com app analytics dashboard
 - Monitor error rates in your scenarios
-- Review webhook delivery logs in Renderbase
+- Review webhook delivery logs in Rynko
 - Collect user feedback from Make.com community
 
 ---
@@ -843,7 +843,7 @@ For significant changes:
 **OAuth Authorization Fails:**
 - Verify Client ID and Secret are correct
 - Check redirect URI matches exactly: `https://www.make.com/oauth/cb/app`
-- Ensure Renderbase OAuth module is running
+- Ensure Rynko OAuth module is running
 - Check CORS allows Make.com domains
 
 **Token Refresh Fails:**
@@ -884,10 +884,10 @@ For significant changes:
 ### Webhook Issues
 
 **Triggers Not Firing:**
-- Verify webhook was created in Renderbase
+- Verify webhook was created in Rynko
 - Check webhook URL is accessible
 - Verify `webhooks:write` scope is granted
-- Check Renderbase webhook delivery logs
+- Check Rynko webhook delivery logs
 
 ---
 
@@ -896,7 +896,7 @@ For significant changes:
 The integration files are organized by component, with each component having separate files for each Make.com tab:
 
 ```
-make-renderbase/
+make-rynko/
 ├── app.json                    # App metadata
 ├── base.json                   # Base configuration
 ├── package.json                # Package info
@@ -1004,4 +1004,4 @@ Make uses IML (Integromat Markup Language) for dynamic values:
 - [Module Types](https://developers.make.com/custom-apps-documentation/app-structure/modules)
 - [IML Functions](https://developers.make.com/custom-apps-documentation/iml-functions)
 - [Make Community Forum](https://community.make.com/c/custom-apps/52)
-- [Renderbase API Docs](https://docs.renderbase.dev/api-reference)
+- [Rynko API Docs](https://docs.rynko.dev/api-reference)

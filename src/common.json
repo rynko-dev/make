@@ -2,7 +2,7 @@
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",
     "Content-Type": "application/json",
-    "User-Agent": "Renderbase-Make/1.0"
+    "User-Agent": "Rynko-Make/1.0"
   },
   "response": {
     "valid": "{{if(body.success, true, false)}}",

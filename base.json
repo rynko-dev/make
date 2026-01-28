@@ -1,11 +1,11 @@
 {
-  "baseUrl": "https://api.renderbase.dev/api/v1",
-  "authorizationUrl": "https://app.renderbase.dev/oauth/authorize",
-  "tokenUrl": "https://api.renderbase.dev/api/oauth/token",
-  "userInfoUrl": "https://api.renderbase.dev/api/oauth/userinfo",
+  "baseUrl": "https://api.rynko.dev/api/v1",
+  "authorizationUrl": "https://app.rynko.dev/oauth/authorize",
+  "tokenUrl": "https://api.rynko.dev/api/oauth/token",
+  "userInfoUrl": "https://api.rynko.dev/api/oauth/userinfo",
   "headers": {
     "Content-Type": "application/json",
-    "User-Agent": "Renderbase-Make/1.0"
+    "User-Agent": "Rynko-Make/1.0"
   },
   "log": {
     "sanitize": ["authorization", "access_token", "refresh_token"]

@@ -1,5 +1,5 @@
 {
-  "url": "https://api.renderbase.dev/api/v1/documents/generate",
+  "url": "https://api.rynko.dev/api/v1/documents/generate",
   "method": "POST",
   "headers": {
     "Authorization": "Bearer {{connection.accessToken}}",

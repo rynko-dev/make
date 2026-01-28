@@ -8,7 +8,7 @@
     "templateName": "Invoice Template",
     "format": "pdf",
     "status": "completed",
-    "downloadUrl": "https://api.renderbase.dev/api/v1/documents/job_abc123xyz/download",
+    "downloadUrl": "https://api.rynko.dev/api/v1/documents/job_abc123xyz/download",
     "fileSize": 125000,
     "completedAt": "2026-01-15T10:30:00Z"
   }
