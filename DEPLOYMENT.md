@@ -35,7 +35,7 @@ The Rynko backend must have:
 - SSL certificate (HTTPS required)
 - CORS configured for Make.com domains
 
-> **Note:** The Integration API module provides user-scoped access to teams, workspaces, and templates for OAuth-authenticated users. This enables the cascading Team → Workspace → Template selection in Make.com modules.
+> **Note:** The Integration API module provides user-scoped access to projects, environments, and templates for OAuth-authenticated users. This enables the cascading Project → Environment → Template selection in Make.com modules.
 
 ### Create OAuth Client in Rynko
 
@@ -387,29 +387,29 @@ Modules are the building blocks users add to their scenarios. Each module has **
 
 **Mappable Parameters Tab** - paste [`src/modules/generate-pdf/parameters.json`](./src/modules/generate-pdf/parameters.json):
 
-This defines the cascading Team → Workspace → Template selection:
+This defines the cascading Project → Environment → Template selection:
 ```json
 [
   {
     "name": "teamId",
-    "label": "Team",
+    "label": "Project",
     "type": "select",
     "required": true,
     "options": {
       "store": "rpc://listTeams"
     },
-    "help": "Select a team from your Rynko account"
+    "help": "Select a project from your Rynko account"
   },
   {
     "name": "workspaceId",
-    "label": "Workspace",
+    "label": "Environment",
     "type": "select",
     "required": true,
     "options": {
       "store": "rpc://listWorkspaces?teamId={{parameters.teamId}}",
       "nested": "teamId"
     },
-    "help": "Select a workspace within the selected team"
+    "help": "Select an environment within the selected project"
   },
   {
     "name": "templateId",
@@ -420,13 +420,13 @@ This defines the cascading Team → Workspace → Template selection:
       "store": "rpc://listPdfTemplates?workspaceId={{parameters.workspaceId}}",
       "nested": "workspaceId"
     },
-    "help": "Select a PDF template from the selected workspace"
+    "help": "Select a PDF template from the selected environment"
   },
   // ... variables, fileName, waitForCompletion fields
 ]
 ```
 
-> **Note:** The `nested` property creates the cascading behavior - when Team changes, Workspace reloads; when Workspace changes, Template reloads.
+> **Note:** The `nested` property creates the cascading behavior - when Project changes, Environment reloads; when Environment changes, Template reloads.
 
 **Interface Tab** - paste [`src/modules/generate-pdf/interface.json`](./src/modules/generate-pdf/interface.json)
 
@@ -498,14 +498,14 @@ Repeat using files from [`src/modules/watch-batch-completed/`](./src/modules/wat
 
 ## Adding Remote Procedures (RPCs)
 
-RPCs provide dynamic data for module dropdowns. The integration uses a **cascading selection pattern**: Team → Workspace → Template.
+RPCs provide dynamic data for module dropdowns. The integration uses a **cascading selection pattern**: Project → Environment → Template.
 
-### RPC: List Teams
+### RPC: List Projects
 
 1. Click **Remote Procedures** in the left sidebar
 2. Click **+ Create a new RPC**
 3. Set **Name** to `listTeams`
-4. Set **Label** to `List Teams`
+4. Set **Label** to `List Projects`
 5. Select **Connection**: `oauth2`
 
 **Communication Tab** - paste [`src/rpcs/list-teams/communication.json`](./src/rpcs/list-teams/communication.json):
@@ -527,11 +527,11 @@ RPCs provide dynamic data for module dropdowns. The integration uses a **cascadi
 }
 ```
 
-### RPC: List Workspaces
+### RPC: List Environments
 
 1. Click **+ Create a new RPC**
 2. Set **Name** to `listWorkspaces`
-3. Set **Label** to `List Workspaces`
+3. Set **Label** to `List Environments`
 4. Select **Connection**: `oauth2`
 
 **Communication Tab** - paste [`src/rpcs/list-workspaces/communication.json`](./src/rpcs/list-workspaces/communication.json):
@@ -562,7 +562,7 @@ RPCs provide dynamic data for module dropdowns. The integration uses a **cascadi
   {
     "name": "teamId",
     "type": "text",
-    "label": "Team ID",
+    "label": "Project ID",
     "required": true
   }
 ]
@@ -604,13 +604,13 @@ RPCs provide dynamic data for module dropdowns. The integration uses a **cascadi
   {
     "name": "workspaceId",
     "type": "text",
-    "label": "Workspace ID",
+    "label": "Environment ID",
     "required": false
   },
   {
     "name": "teamId",
     "type": "text",
-    "label": "Team ID",
+    "label": "Project ID",
     "required": false
   }
 ]
@@ -853,20 +853,20 @@ For significant changes:
 
 ### Module Issues
 
-**Team Dropdown Empty:**
-- Verify the user has access to at least one team
+**Project Dropdown Empty:**
+- Verify the user has access to at least one project
 - Check `listTeams` RPC configuration
 - Test the `/api/v1/integration-api/teams` endpoint directly
 
-**Workspace Dropdown Empty:**
-- Verify a team is selected first (cascading dependency)
-- Check the user has access to workspaces in the selected team
+**Environment Dropdown Empty:**
+- Verify a project is selected first (cascading dependency)
+- Check the user has access to environments in the selected project
 - Verify `listWorkspaces` RPC includes `teamId` parameter
 
 **Template Dropdown Empty:**
-- Verify a workspace is selected first (cascading dependency)
+- Verify an environment is selected first (cascading dependency)
 - Verify `templates:read` scope is granted
-- Check that templates exist in the selected workspace
+- Check that templates exist in the selected environment
 - For PDF/Excel dropdowns, verify templates have the correct `outputFormats`
 - Test the `/api/v1/integration-api/templates?workspaceId=...` endpoint directly
 

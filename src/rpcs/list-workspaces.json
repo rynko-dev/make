@@ -1,5 +1,5 @@
 {
   "name": "listWorkspaces",
-  "label": "List Workspaces",
-  "description": "Fetches workspaces for dynamic dropdowns, optionally filtered by team"
+  "label": "List Environments",
+  "description": "Fetches environments for dynamic dropdowns, optionally filtered by project"
 }

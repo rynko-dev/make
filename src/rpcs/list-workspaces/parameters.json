@@ -1,9 +1,9 @@
 [
   {
     "name": "teamId",
-    "label": "Team",
+    "label": "Project",
     "type": "text",
     "required": false,
-    "help": "Filter workspaces by team ID"
+    "help": "Filter environments by project ID"
   }
 ]

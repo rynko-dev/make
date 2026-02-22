@@ -1,23 +1,23 @@
 [
   {
     "name": "teamId",
-    "label": "Team",
+    "label": "Project",
     "type": "select",
     "required": true,
     "options": {
       "store": "rpc://listTeams"
     },
-    "help": "Select a team from your Rynko account"
+    "help": "Select a project from your Rynko account"
   },
   {
     "name": "workspaceId",
-    "label": "Workspace",
+    "label": "Environment",
     "type": "select",
     "required": true,
     "options": {
       "store": "rpc://listWorkspaces"
     },
-    "help": "Select a workspace to receive webhook events from"
+    "help": "Select an environment to receive webhook events from"
   },
   {
     "name": "events",

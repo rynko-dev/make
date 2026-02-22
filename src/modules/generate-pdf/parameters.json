@@ -1,7 +1,7 @@
 [
   {
     "name": "teamId",
-    "label": "Team",
+    "label": "Project",
     "type": "select",
     "required": true,
     "options": {
@@ -9,7 +9,7 @@
       "nested": [
         {
           "name": "workspaceId",
-          "label": "Workspace",
+          "label": "Environment",
           "type": "select",
           "required": true,
           "options": {
@@ -26,15 +26,15 @@
                     "rpc://getTemplateVariables"
                   ]
                 },
-                "help": "Select a PDF template from the selected workspace"
+                "help": "Select a PDF template from the selected environment"
               }
             ]
           },
-          "help": "Select a workspace within the selected team"
+          "help": "Select an environment within the selected project"
         }
       ]
     },
-    "help": "Select a team from your Rynko account"
+    "help": "Select a project from your Rynko account"
   },
   {
     "name": "fileName",

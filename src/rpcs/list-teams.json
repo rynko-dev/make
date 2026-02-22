@@ -1,5 +1,5 @@
 {
   "name": "listTeams",
-  "label": "List Teams",
-  "description": "Fetches teams for dynamic dropdowns"
+  "label": "List Projects",
+  "description": "Fetches projects for dynamic dropdowns"
 }

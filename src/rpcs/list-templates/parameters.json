@@ -1,16 +1,16 @@
 [
   {
     "name": "workspaceId",
-    "label": "Workspace",
+    "label": "Environment",
     "type": "text",
     "required": false,
-    "help": "Filter templates by workspace ID"
+    "help": "Filter templates by environment ID"
   },
   {
     "name": "teamId",
-    "label": "Team",
+    "label": "Project",
     "type": "text",
     "required": false,
-    "help": "Filter templates by team ID (used if workspaceId is not provided)"
+    "help": "Filter templates by project ID (used if workspaceId is not provided)"
   }
 ]
